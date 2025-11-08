@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useOutletContext } from "react-router-dom";
 import { getUserPayments } from "../services/api";
 import SetupMFA from "../components/SetupMFA";
+
 function DashboardPage() {
   const { user } = useOutletContext();
   const [payments, setPayments] = useState([]);
@@ -50,413 +51,165 @@ function DashboardPage() {
 
   return (
     <div style={{ 
-      backgroundColor: '#f8f9fa', 
-      minHeight: '100vh', 
-      marginTop: '-2rem', 
-      marginLeft: '-2rem', 
-      marginRight: '-2rem',
+      backgroundColor: '#f9fafb',
+      minHeight: '100vh',
       paddingBottom: '3rem'
     }}>
-      {/* Hero Welcome Section */}
+      {/* Welcome Header */}
       <div style={{
-        background: 'linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)',
-        color: 'white',
-        padding: '3rem 2rem 5rem',
-        position: 'relative',
-        overflow: 'hidden'
+        background: 'linear-gradient(to bottom right, #ecfdf5 0%, #d1fae5 50%, #a7f3d0 100%)',
+        padding: '2.5rem 2rem',
+        marginBottom: '2rem',
+        borderRadius: '0 0 24px 24px'
       }}>
-        {/* Decorative Elements */}
-        <div style={{
-          position: 'absolute',
-          top: '-80px',
-          right: '-80px',
-          width: '300px',
-          height: '300px',
-          borderRadius: '50%',
-          background: 'rgba(255,255,255,0.1)',
-          opacity: '0.6'
-        }}></div>
-        <div style={{
-          position: 'absolute',
-          bottom: '-60px',
-          left: '-60px',
-          width: '250px',
-          height: '250px',
-          borderRadius: '50%',
-          background: 'rgba(255,255,255,0.1)',
-          opacity: '0.6'
-        }}></div>
-
         <div style={{ 
           maxWidth: '1200px', 
-          margin: '0 auto',
-          position: 'relative',
-          zIndex: 1
+          margin: '0 auto'
         }}>
           <div style={{
             display: 'inline-flex',
             alignItems: 'center',
-            gap: '0.75rem',
-            marginBottom: '1.5rem',
-            backgroundColor: 'rgba(255,255,255,0.15)',
-            padding: '0.6rem 1.5rem',
-            borderRadius: '50px'
+            gap: '0.5rem',
+            marginBottom: '1rem',
+            backgroundColor: 'white',
+            padding: '0.5rem 1rem',
+            borderRadius: '20px',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.08)'
           }}>
-            <span style={{ fontSize: '1.5rem' }}>👋</span>
-            <span style={{ fontSize: '0.85rem', fontWeight: '600', letterSpacing: '1px' }}>
-              DASHBOARD
+            <span style={{ fontSize: '1.2rem' }}>👋</span>
+            <span style={{ fontSize: '0.85rem', fontWeight: '600', color: '#059669' }}>
+              WELCOME BACK
             </span>
           </div>
 
           <h1 style={{ 
-            fontSize: '3rem', 
-            marginBottom: '1rem',
-            fontWeight: '700',
-            letterSpacing: '-1px'
+            fontSize: '2.5rem', 
+            marginBottom: '0.5rem',
+            fontWeight: '800',
+            color: '#064e3b',
+            letterSpacing: '-0.5px'
           }}>
-            Welcome back, {user?.fullName || "User"}!
+            {user?.fullName || "User"}
           </h1>
           
           <div style={{
             display: 'flex',
             alignItems: 'center',
-            gap: '2rem',
+            gap: '1.5rem',
             flexWrap: 'wrap'
           }}>
             <div style={{
-              backgroundColor: 'rgba(255,255,255,0.2)',
-              padding: '1rem 1.5rem',
-              borderRadius: '12px',
-              backdropFilter: 'blur(10px)'
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.5rem',
+              color: '#065f46',
+              fontSize: '0.95rem'
             }}>
-              <p style={{ 
-                fontSize: '0.85rem', 
-                opacity: '0.9',
-                margin: '0 0 0.25rem'
-              }}>
-                Account Number
-              </p>
-              <p style={{ 
-                fontSize: '1.3rem',
-                fontWeight: '700',
-                margin: 0,
-                letterSpacing: '1px'
-              }}>
-                {user?.accountNumber || "N/A"}
-              </p>
+              <span style={{ fontSize: '1.2rem' }}>💳</span>
+              <span style={{ fontWeight: '600' }}>Account:</span>
+              <span style={{ fontWeight: '700' }}>{user?.accountNumber || "N/A"}</span>
             </div>
 
             <div style={{
-              backgroundColor: 'rgba(255,255,255,0.2)',
-              padding: '1rem 1.5rem',
-              borderRadius: '12px',
-              backdropFilter: 'blur(10px)'
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.5rem',
+              color: '#065f46',
+              fontSize: '0.95rem'
             }}>
-              <p style={{ 
-                fontSize: '0.85rem', 
-                opacity: '0.9',
-                margin: '0 0 0.25rem'
-              }}>
-                Account Status
-              </p>
-              <p style={{ 
-                fontSize: '1.3rem',
-                fontWeight: '700',
-                margin: 0,
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.5rem'
-              }}>
-                <span style={{ fontSize: '1.2rem' }}>✓</span> Active
-              </p>
+              <span style={{ 
+                width: '8px', 
+                height: '8px', 
+                backgroundColor: '#10b981', 
+                borderRadius: '50%',
+                display: 'inline-block'
+              }}></span>
+              <span style={{ fontWeight: '600' }}>Active</span>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Stats Cards - Elevated */}
       <div style={{
         maxWidth: '1200px',
-        margin: '-3.5rem auto 2rem',
-        padding: '0 2rem',
-        position: 'relative',
-        zIndex: 2
-      }}>
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-          gap: '1.5rem'
-        }}>
-          {/* Total Payments Card */}
-          <div style={{
-            backgroundColor: 'white',
-            borderRadius: '16px',
-            padding: '2rem',
-            boxShadow: '0 8px 25px rgba(0,0,0,0.1)',
-            borderTop: '5px solid #3498db',
-            transition: 'transform 0.3s ease'
-          }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-              <div>
-                <p style={{ 
-                  color: '#7f8c8d', 
-                  fontSize: '0.9rem', 
-                  marginBottom: '0.75rem',
-                  fontWeight: '600',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.5px'
-                }}>
-                  Total Payments
-                </p>
-                <h3 style={{ 
-                  color: '#2c3e50', 
-                  fontSize: '3rem', 
-                  margin: 0,
-                  fontWeight: '700'
-                }}>
-                  {loading ? '...' : totalPayments}
-                </h3>
-                <p style={{ 
-                  color: '#3498db', 
-                  fontSize: '0.85rem',
-                  margin: '0.5rem 0 0',
-                  fontWeight: '600'
-                }}>
-                  All time transactions
-                </p>
-              </div>
-              <div style={{
-                backgroundColor: '#d6eaf8',
-                borderRadius: '16px',
-                padding: '1rem',
-                fontSize: '2.5rem'
-              }}>
-                💰
-              </div>
-            </div>
-          </div>
-
-          {/* Completed Payments Card */}
-          <div style={{
-            backgroundColor: 'white',
-            borderRadius: '16px',
-            padding: '2rem',
-            boxShadow: '0 8px 25px rgba(0,0,0,0.1)',
-            borderTop: '5px solid #27ae60'
-          }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-              <div>
-                <p style={{ 
-                  color: '#7f8c8d', 
-                  fontSize: '0.9rem', 
-                  marginBottom: '0.75rem',
-                  fontWeight: '600',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.5px'
-                }}>
-                  Completed
-                </p>
-                <h3 style={{ 
-                  color: '#2c3e50', 
-                  fontSize: '3rem', 
-                  margin: 0,
-                  fontWeight: '700'
-                }}>
-                  {loading ? '...' : completedPayments}
-                </h3>
-                <p style={{ 
-                  color: '#27ae60', 
-                  fontSize: '0.85rem',
-                  margin: '0.5rem 0 0',
-                  fontWeight: '600'
-                }}>
-                  Successfully processed
-                </p>
-              </div>
-              <div style={{
-                backgroundColor: '#d5f4e6',
-                borderRadius: '16px',
-                padding: '1rem',
-                fontSize: '2.5rem'
-              }}>
-                ✓
-              </div>
-            </div>
-          </div>
-
-          {/* Pending Payments Card */}
-          <div style={{
-            backgroundColor: 'white',
-            borderRadius: '16px',
-            padding: '2rem',
-            boxShadow: '0 8px 25px rgba(0,0,0,0.1)',
-            borderTop: '5px solid #f39c12'
-          }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-              <div>
-                <p style={{ 
-                  color: '#7f8c8d', 
-                  fontSize: '0.9rem', 
-                  marginBottom: '0.75rem',
-                  fontWeight: '600',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.5px'
-                }}>
-                  Pending
-                </p>
-                <h3 style={{ 
-                  color: '#2c3e50', 
-                  fontSize: '3rem', 
-                  margin: 0,
-                  fontWeight: '700'
-                }}>
-                  {loading ? '...' : pendingPayments}
-                </h3>
-                <p style={{ 
-                  color: '#f39c12', 
-                  fontSize: '0.85rem',
-                  margin: '0.5rem 0 0',
-                  fontWeight: '600'
-                }}>
-                  Awaiting confirmation
-                </p>
-              </div>
-              <div style={{
-                backgroundColor: '#fef5e7',
-                borderRadius: '16px',
-                padding: '1rem',
-                fontSize: '2.5rem'
-              }}>
-                ⏳
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Quick Actions Section */}
-      <div style={{
-        maxWidth: '1200px',
-        margin: '0 auto 2rem',
+        margin: '0 auto',
         padding: '0 2rem'
       }}>
-        <h2 style={{
-          color: '#2c3e50',
-          fontSize: '1.8rem',
-          marginBottom: '1.5rem',
-          fontWeight: '700'
-        }}>
-          Quick Actions
-        </h2>
-        
-
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-          gap: '1.5rem'
-        }}>
-
-{/* Setup MFA Card */}
-<div
-  style={{
-    backgroundColor: 'white',
-    borderRadius: '16px',
-    padding: '2.5rem',
-    boxShadow: '0 4px 15px rgba(0,0,0,0.08)',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    position: 'relative',
-    overflow: 'hidden'
-  }}
->
-  <div
-    style={{
-      position: 'absolute',
-      top: '-20px',
-      right: '-20px',
-      width: '100px',
-      height: '100px',
-      borderRadius: '50%',
-      background: 'linear-gradient(135deg, #f39c12 0%, #f1c40f 100%)',
-      opacity: 0.1
-    }}
-  ></div>
-
-  <div style={{ position: 'relative', zIndex: 1 }}>
-    <div style={{ fontSize: '3.5rem', marginBottom: '1rem' }}>🔒</div>
-    <h3 style={{ fontSize: '1.5rem', fontWeight: '700', marginBottom: '0.75rem' }}>Setup 2FA</h3>
-    <SetupMFA user={user} />
-  </div>
-</div>
-
-
-
-          {/* Make Payment Card */}
-          <Link
-            to="/make-payment"
-            style={{
-              backgroundColor: 'white',
-              borderRadius: '16px',
-              padding: '2.5rem',
-              boxShadow: '0 4px 15px rgba(0,0,0,0.08)',
-              textDecoration: 'none',
-              border: '2px solid transparent',
-              transition: 'all 0.3s ease',
-              display: 'block',
-              position: 'relative',
-              overflow: 'hidden'
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'translateY(-5px)';
-              e.currentTarget.style.boxShadow = '0 8px 25px rgba(0,0,0,0.12)';
-              e.currentTarget.style.borderColor = '#27ae60';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'translateY(0)';
-              e.currentTarget.style.boxShadow = '0 4px 15px rgba(0,0,0,0.08)';
-              e.currentTarget.style.borderColor = 'transparent';
-            }}
-          >
-            <div style={{
-              position: 'absolute',
-              top: '-20px',
-              right: '-20px',
-              width: '100px',
-              height: '100px',
-              borderRadius: '50%',
-              background: 'linear-gradient(135deg, #27ae60 0%, #2ecc71 100%)',
-              opacity: '0.1'
-            }}></div>
-           
-
-            <div style={{ position: 'relative', zIndex: 1 }}>
-              <div style={{ 
-                fontSize: '3.5rem', 
+        {/* Quick Actions Section - MOVED UP */}
+        <div style={{ marginBottom: '2.5rem' }}>
+          <h2 style={{
+            color: '#064e3b',
+            fontSize: '1.5rem',
+            marginBottom: '1.5rem',
+            fontWeight: '700'
+          }}>
+            Quick Actions
+          </h2>
+          
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+            gap: '1.5rem'
+          }}>
+            {/* Make Payment Card */}
+            <Link
+              to="/make-payment"
+              style={{
+                backgroundColor: 'white',
+                borderRadius: '16px',
+                padding: '2rem',
+                boxShadow: '0 2px 10px rgba(0,0,0,0.06)',
+                textDecoration: 'none',
+                border: '2px solid transparent',
+                transition: 'all 0.3s ease',
+                display: 'block',
+                position: 'relative',
+                overflow: 'hidden'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'translateY(-4px)';
+                e.currentTarget.style.boxShadow = '0 8px 20px rgba(0,0,0,0.1)';
+                e.currentTarget.style.borderColor = '#10b981';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.boxShadow = '0 2px 10px rgba(0,0,0,0.06)';
+                e.currentTarget.style.borderColor = 'transparent';
+              }}
+            >
+              <div style={{
+                width: '56px',
+                height: '56px',
+                background: 'linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%)',
+                borderRadius: '16px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: '1.75rem',
                 marginBottom: '1rem'
-                
-              }}>💳</div>
+              }}>
+                💸
+              </div>
               <h3 style={{ 
-                color: '#2c3e50', 
-                marginBottom: '0.75rem',
-                fontSize: '1.5rem',
+                color: '#064e3b', 
+                marginBottom: '0.5rem',
+                fontSize: '1.25rem',
                 fontWeight: '700'
               }}>
-                Make Payment
+                New Payment
               </h3>
               <p style={{ 
-                color: '#7f8c8d', 
-                fontSize: '1rem',
-                margin: 0,
-                lineHeight: '1.6'
+                color: '#6b7280', 
+                fontSize: '0.9rem',
+                margin: '0 0 1rem 0',
+                lineHeight: '1.5'
               }}>
-                Send international payments securely through our SWIFT network
+                Process secure payments quickly
               </p>
               <div style={{
-                marginTop: '1.5rem',
-                color: '#27ae60',
-                fontWeight: '700',
-                fontSize: '1rem',
+                color: '#059669',
+                fontWeight: '600',
+                fontSize: '0.9rem',
                 display: 'flex',
                 alignItems: 'center',
                 gap: '0.5rem'
@@ -464,72 +217,67 @@ function DashboardPage() {
                 <span>Start Payment</span>
                 <span>→</span>
               </div>
-            </div>
-          </Link>
+            </Link>
 
-          {/* Payment History Card */}
-          <Link
-            to="/payments"
-            style={{
-              backgroundColor: 'white',
-              borderRadius: '16px',
-              padding: '2.5rem',
-              boxShadow: '0 4px 15px rgba(0,0,0,0.08)',
-              textDecoration: 'none',
-              border: '2px solid transparent',
-              transition: 'all 0.3s ease',
-              display: 'block',
-              position: 'relative',
-              overflow: 'hidden'
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'translateY(-5px)';
-              e.currentTarget.style.boxShadow = '0 8px 25px rgba(0,0,0,0.12)';
-              e.currentTarget.style.borderColor = '#3498db';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'translateY(0)';
-              e.currentTarget.style.boxShadow = '0 4px 15px rgba(0,0,0,0.08)';
-              e.currentTarget.style.borderColor = 'transparent';
-            }}
-          >
-            <div style={{
-              position: 'absolute',
-              top: '-20px',
-              right: '-20px',
-              width: '100px',
-              height: '100px',
-              borderRadius: '50%',
-              background: 'linear-gradient(135deg, #3498db 0%, #5dade2 100%)',
-              opacity: '0.1'
-            }}></div>
-            
-            <div style={{ position: 'relative', zIndex: 1 }}>
-              <div style={{ 
-                fontSize: '3.5rem', 
+            {/* Payment History Card */}
+            <Link
+              to="/payments"
+              style={{
+                backgroundColor: 'white',
+                borderRadius: '16px',
+                padding: '2rem',
+                boxShadow: '0 2px 10px rgba(0,0,0,0.06)',
+                textDecoration: 'none',
+                border: '2px solid transparent',
+                transition: 'all 0.3s ease',
+                display: 'block',
+                position: 'relative',
+                overflow: 'hidden'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'translateY(-4px)';
+                e.currentTarget.style.boxShadow = '0 8px 20px rgba(0,0,0,0.1)';
+                e.currentTarget.style.borderColor = '#10b981';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.boxShadow = '0 2px 10px rgba(0,0,0,0.06)';
+                e.currentTarget.style.borderColor = 'transparent';
+              }}
+            >
+              <div style={{
+                width: '56px',
+                height: '56px',
+                background: 'linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%)',
+                borderRadius: '16px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: '1.75rem',
                 marginBottom: '1rem'
-              }}>📊</div>
+              }}>
+                📊
+              </div>
               <h3 style={{ 
-                color: '#2c3e50', 
-                marginBottom: '0.75rem',
-                fontSize: '1.5rem',
+                color: '#064e3b', 
+                marginBottom: '0.5rem',
+                fontSize: '1.25rem',
                 fontWeight: '700'
               }}>
-                Payment History
+                Transaction History
               </h3>
               <p style={{ 
-                color: '#7f8c8d', 
-                fontSize: '1rem',
-                margin: 0,
-                lineHeight: '1.6'
+                color: '#6b7280', 
+                fontSize: '0.9rem',
+                margin: '0 0 1rem 0',
+                lineHeight: '1.5'
               }}>
-                View and track all your payment transactions and their status
+                View all your transactions
               </p>
               <div style={{
-                marginTop: '1.5rem',
-                color: '#3498db',
-                fontWeight: '700',
-                fontSize: '1rem',
+                color: '#059669',
+                fontWeight: '600',
+                fontSize: '0.9rem',
                 display: 'flex',
                 alignItems: 'center',
                 gap: '0.5rem'
@@ -537,194 +285,418 @@ function DashboardPage() {
                 <span>View History</span>
                 <span>→</span>
               </div>
-            </div>
-          </Link>
-        </div>
-      </div>
+            </Link>
 
-      {/* Recent Payments Section */}
-      <div style={{
-        maxWidth: '1200px',
-        margin: '0 auto',
-        padding: '0 2rem'
-      }}>
-        <div style={{
-          backgroundColor: 'white',
-          borderRadius: '16px',
-          padding: '2rem',
-          boxShadow: '0 4px 15px rgba(0,0,0,0.08)'
-        }}>
-          <div style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            marginBottom: '2rem',
-            paddingBottom: '1rem',
-            borderBottom: '2px solid #f0f0f0'
-          }}>
-            <h3 style={{ 
-              color: '#2c3e50', 
-              margin: 0,
-              fontSize: '1.5rem',
-              fontWeight: '700'
-            }}>
-              Recent Payments
-            </h3>
-            
-            <Link 
-              to="/payments"
+            {/* Setup MFA Card */}
+            <div
               style={{
-                color: '#3498db',
-                textDecoration: 'none',
-                fontWeight: '600',
-                fontSize: '1rem',
+                backgroundColor: 'white',
+                borderRadius: '16px',
+                padding: '2rem',
+                boxShadow: '0 2px 10px rgba(0,0,0,0.06)',
                 display: 'flex',
-                alignItems: 'center',
-                gap: '0.5rem'
+                flexDirection: 'column',
+                border: '2px solid #e5e7eb'
               }}
             >
-              <span>View All</span>
-              <span>→</span>
-            </Link>
+              <div style={{
+                width: '56px',
+                height: '56px',
+                background: 'linear-gradient(135deg, #fef3c7 0%, #fde68a 100%)',
+                borderRadius: '16px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: '1.75rem',
+                marginBottom: '1rem'
+              }}>
+                🔒
+              </div>
+              <h3 style={{ 
+                fontSize: '1.25rem', 
+                fontWeight: '700', 
+                marginBottom: '0.5rem', 
+                color: '#064e3b' 
+              }}>
+                Setup 2FA
+              </h3>
+              <SetupMFA user={user} />
+            </div>
           </div>
+        </div>
 
-          {loading ? (
-            <div style={{ textAlign: 'center', padding: '3rem', color: '#7f8c8d' }}>
-              <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>⏳</div>
-              <p style={{ fontSize: '1.1rem' }}>Loading payments...</p>
-            </div>
-          ) : error ? (
-            <div style={{ 
-              textAlign: 'center', 
-              padding: '3rem',
-              backgroundColor: '#fadbd8',
-              borderRadius: '12px',
-              border: '1px solid #e74c3c'
+        {/* Stats Cards */}
+        <div style={{ marginBottom: '2.5rem' }}>
+          <h2 style={{
+            color: '#064e3b',
+            fontSize: '1.5rem',
+            marginBottom: '1.5rem',
+            fontWeight: '700'
+          }}>
+            Overview
+          </h2>
+          
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+            gap: '1.5rem'
+          }}>
+            {/* Total Payments Card */}
+            <div style={{
+              backgroundColor: 'white',
+              borderRadius: '16px',
+              padding: '1.75rem',
+              boxShadow: '0 2px 10px rgba(0,0,0,0.06)',
+              border: '1px solid #e5e7eb'
             }}>
-              <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>❌</div>
-              <p style={{ color: '#e74c3c', fontSize: '1.1rem', margin: 0 }}>{error}</p>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                <div style={{ flex: 1 }}>
+                  <p style={{ 
+                    color: '#6b7280', 
+                    fontSize: '0.85rem', 
+                    marginBottom: '0.5rem',
+                    fontWeight: '600',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.5px'
+                  }}>
+                    Total Payments
+                  </p>
+                  <h3 style={{ 
+                    color: '#059669', 
+                    fontSize: '2.5rem', 
+                    margin: '0 0 0.25rem 0',
+                    fontWeight: '800'
+                  }}>
+                    {loading ? '...' : totalPayments}
+                  </h3>
+                  <p style={{ 
+                    color: '#10b981', 
+                    fontSize: '0.8rem',
+                    margin: 0,
+                    fontWeight: '600'
+                  }}>
+                    All transactions
+                  </p>
+                </div>
+                <div style={{
+                  width: '48px',
+                  height: '48px',
+                  background: 'linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%)',
+                  borderRadius: '12px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '1.5rem'
+                }}>
+                  💰
+                </div>
+              </div>
             </div>
-          ) : recentPayments.length === 0 ? (
-            <div style={{ 
-              textAlign: 'center', 
-              padding: '3rem',
-              backgroundColor: '#f8f9fa',
-              borderRadius: '12px'
+
+            {/* Completed Payments Card */}
+            <div style={{
+              backgroundColor: 'white',
+              borderRadius: '16px',
+              padding: '1.75rem',
+              boxShadow: '0 2px 10px rgba(0,0,0,0.06)',
+              border: '1px solid #e5e7eb'
             }}>
-              <div style={{ fontSize: '4rem', marginBottom: '1rem' }}>📭</div>
-              <h4 style={{ color: '#2c3e50', marginBottom: '0.5rem', fontSize: '1.3rem' }}>
-                No Payments Yet
-              </h4>
-              <p style={{ color: '#7f8c8d', marginBottom: '2rem' }}>
-                Start making international payments today!
-              </p>
-              <Link
-                to="/make-payment"
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                <div style={{ flex: 1 }}>
+                  <p style={{ 
+                    color: '#6b7280', 
+                    fontSize: '0.85rem', 
+                    marginBottom: '0.5rem',
+                    fontWeight: '600',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.5px'
+                  }}>
+                    Completed
+                  </p>
+                  <h3 style={{ 
+                    color: '#059669', 
+                    fontSize: '2.5rem', 
+                    margin: '0 0 0.25rem 0',
+                    fontWeight: '800'
+                  }}>
+                    {loading ? '...' : completedPayments}
+                  </h3>
+                  <p style={{ 
+                    color: '#10b981', 
+                    fontSize: '0.8rem',
+                    margin: 0,
+                    fontWeight: '600'
+                  }}>
+                    Successfully processed
+                  </p>
+                </div>
+                <div style={{
+                  width: '48px',
+                  height: '48px',
+                  background: 'linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%)',
+                  borderRadius: '12px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '1.5rem'
+                }}>
+                  ✓
+                </div>
+              </div>
+            </div>
+
+            {/* Pending Payments Card */}
+            <div style={{
+              backgroundColor: 'white',
+              borderRadius: '16px',
+              padding: '1.75rem',
+              boxShadow: '0 2px 10px rgba(0,0,0,0.06)',
+              border: '1px solid #e5e7eb'
+            }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                <div style={{ flex: 1 }}>
+                  <p style={{ 
+                    color: '#6b7280', 
+                    fontSize: '0.85rem', 
+                    marginBottom: '0.5rem',
+                    fontWeight: '600',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.5px'
+                  }}>
+                    Pending
+                  </p>
+                  <h3 style={{ 
+                    color: '#f59e0b', 
+                    fontSize: '2.5rem', 
+                    margin: '0 0 0.25rem 0',
+                    fontWeight: '800'
+                  }}>
+                    {loading ? '...' : pendingPayments}
+                  </h3>
+                  <p style={{ 
+                    color: '#fbbf24', 
+                    fontSize: '0.8rem',
+                    margin: 0,
+                    fontWeight: '600'
+                  }}>
+                    In progress
+                  </p>
+                </div>
+                <div style={{
+                  width: '48px',
+                  height: '48px',
+                  background: 'linear-gradient(135deg, #fef3c7 0%, #fde68a 100%)',
+                  borderRadius: '12px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '1.5rem'
+                }}>
+                  ⏳
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Recent Payments Section */}
+        <div>
+          <div style={{
+            backgroundColor: 'white',
+            borderRadius: '16px',
+            padding: '2rem',
+            boxShadow: '0 2px 10px rgba(0,0,0,0.06)',
+            border: '1px solid #e5e7eb'
+          }}>
+            <div style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              marginBottom: '1.5rem',
+              paddingBottom: '1rem',
+              borderBottom: '2px solid #f3f4f6'
+            }}>
+              <h3 style={{ 
+                color: '#064e3b', 
+                margin: 0,
+                fontSize: '1.5rem',
+                fontWeight: '700'
+              }}>
+                Recent Transactions
+              </h3>
+              
+              <Link 
+                to="/payments"
                 style={{
-                  backgroundColor: '#27ae60',
-                  color: 'white',
-                  padding: '1rem 2rem',
+                  color: '#059669',
                   textDecoration: 'none',
-                  borderRadius: '8px',
-                  fontSize: '1rem',
                   fontWeight: '600',
-                  display: 'inline-block'
+                  fontSize: '0.95rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.5rem'
                 }}
               >
-                Make Your First Payment →
+                <span>View All</span>
+                <span>→</span>
               </Link>
             </div>
-          ) : (
-            <div style={{ overflowX: 'auto' }}>
-              <table style={{ 
-                width: '100%', 
-                borderCollapse: 'collapse',
-                fontSize: '0.95rem'
+
+            {loading ? (
+              <div style={{ textAlign: 'center', padding: '3rem', color: '#6b7280' }}>
+                <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>⏳</div>
+                <p style={{ fontSize: '1rem' }}>Loading transactions...</p>
+              </div>
+            ) : error ? (
+              <div style={{ 
+                textAlign: 'center', 
+                padding: '3rem',
+                backgroundColor: '#fef2f2',
+                borderRadius: '12px',
+                border: '1px solid #fecaca'
               }}>
-                <thead>
-                  <tr style={{ backgroundColor: '#f8f9fa' }}>
-                    <th style={{ 
-                      padding: '1rem', 
-                      textAlign: 'left',
-                      color: '#2c3e50',
-                      fontWeight: '700',
-                      borderBottom: '2px solid #dee2e6'
-                    }}>Amount</th>
-                    <th style={{ 
-                      padding: '1rem', 
-                      textAlign: 'left',
-                      color: '#2c3e50',
-                      fontWeight: '700',
-                      borderBottom: '2px solid #dee2e6'
-                    }}>Currency</th>
-                    <th style={{ 
-                      padding: '1rem', 
-                      textAlign: 'left',
-                      color: '#2c3e50',
-                      fontWeight: '700',
-                      borderBottom: '2px solid #dee2e6'
-                    }}>Provider</th>
-                    <th style={{ 
-                      padding: '1rem', 
-                      textAlign: 'left',
-                      color: '#2c3e50',
-                      fontWeight: '700',
-                      borderBottom: '2px solid #dee2e6'
-                    }}>Status</th>
-                    <th style={{ 
-                      padding: '1rem', 
-                      textAlign: 'left',
-                      color: '#2c3e50',
-                      fontWeight: '700',
-                      borderBottom: '2px solid #dee2e6'
-                    }}>Date</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {recentPayments.map((p, index) => {
-                    const status = p.status?.toLowerCase() || 'pending';
-                    const isCompleted = status === 'completed' || status === 'approved';
-                    
-                    return (
-                      <tr key={p._id || index} style={{ 
-                        borderBottom: index !== recentPayments.length - 1 ? '1px solid #f0f0f0' : 'none'
-                      }}>
-                        <td style={{ 
-                          padding: '1rem',
-                          fontWeight: '700',
-                          color: '#2c3e50'
+                <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>❌</div>
+                <p style={{ color: '#dc2626', fontSize: '1rem', margin: 0 }}>{error}</p>
+              </div>
+            ) : recentPayments.length === 0 ? (
+              <div style={{ 
+                textAlign: 'center', 
+                padding: '3rem',
+                backgroundColor: '#f9fafb',
+                borderRadius: '12px'
+              }}>
+                <div style={{ fontSize: '4rem', marginBottom: '1rem' }}>📭</div>
+                <h4 style={{ color: '#064e3b', marginBottom: '0.5rem', fontSize: '1.2rem', fontWeight: '700' }}>
+                  No Payments Yet
+                </h4>
+                <p style={{ color: '#6b7280', marginBottom: '1.5rem', fontSize: '0.95rem' }}>
+                  Start processing payments today!
+                </p>
+                <Link
+                  to="/make-payment"
+                  style={{
+                    background: 'linear-gradient(135deg, #059669 0%, #10b981 100%)',
+                    color: 'white',
+                    padding: '0.875rem 2rem',
+                    textDecoration: 'none',
+                    borderRadius: '10px',
+                    fontSize: '0.95rem',
+                    fontWeight: '600',
+                    display: 'inline-block',
+                    boxShadow: '0 4px 12px rgba(5, 150, 105, 0.3)'
+                  }}
+                >
+                  Make Your First Payment →
+                </Link>
+              </div>
+            ) : (
+              <div style={{ overflowX: 'auto' }}>
+                <table style={{ 
+                  width: '100%', 
+                  borderCollapse: 'collapse',
+                  fontSize: '0.9rem'
+                }}>
+                  <thead>
+                    <tr style={{ backgroundColor: '#f9fafb' }}>
+                      <th style={{ 
+                        padding: '0.875rem 1rem', 
+                        textAlign: 'left',
+                        color: '#064e3b',
+                        fontWeight: '700',
+                        fontSize: '0.85rem',
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.5px',
+                        borderBottom: '2px solid #e5e7eb'
+                      }}>Amount</th>
+                      <th style={{ 
+                        padding: '0.875rem 1rem', 
+                        textAlign: 'left',
+                        color: '#064e3b',
+                        fontWeight: '700',
+                        fontSize: '0.85rem',
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.5px',
+                        borderBottom: '2px solid #e5e7eb'
+                      }}>Currency</th>
+                      <th style={{ 
+                        padding: '0.875rem 1rem', 
+                        textAlign: 'left',
+                        color: '#064e3b',
+                        fontWeight: '700',
+                        fontSize: '0.85rem',
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.5px',
+                        borderBottom: '2px solid #e5e7eb'
+                      }}>Provider</th>
+                      <th style={{ 
+                        padding: '0.875rem 1rem', 
+                        textAlign: 'left',
+                        color: '#064e3b',
+                        fontWeight: '700',
+                        fontSize: '0.85rem',
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.5px',
+                        borderBottom: '2px solid #e5e7eb'
+                      }}>Status</th>
+                      <th style={{ 
+                        padding: '0.875rem 1rem', 
+                        textAlign: 'left',
+                        color: '#064e3b',
+                        fontWeight: '700',
+                        fontSize: '0.85rem',
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.5px',
+                        borderBottom: '2px solid #e5e7eb'
+                      }}>Date</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {recentPayments.map((p, index) => {
+                      const status = p.status?.toLowerCase() || 'pending';
+                      const isCompleted = status === 'completed' || status === 'approved';
+                      
+                      return (
+                        <tr key={p._id || index} style={{ 
+                          borderBottom: index !== recentPayments.length - 1 ? '1px solid #f3f4f6' : 'none'
                         }}>
-                          {p.currency} {p.amount}
-                        </td>
-                        <td style={{ padding: '1rem', color: '#7f8c8d' }}>
-                          {p.currency}
-                        </td>
-                        <td style={{ padding: '1rem', color: '#7f8c8d' }}>
-                          {p.provider || 'SWIFT'}
-                        </td>
-                        <td style={{ padding: '1rem' }}>
-                          <span style={{
-                            padding: '0.4rem 1rem',
-                            borderRadius: '20px',
-                            fontSize: '0.85rem',
-                            fontWeight: '600',
-                            backgroundColor: isCompleted ? '#d5f4e6' : '#fef5e7',
-                            color: isCompleted ? '#27ae60' : '#f39c12',
-                            textTransform: 'capitalize'
+                          <td style={{ 
+                            padding: '1rem',
+                            fontWeight: '700',
+                            color: '#064e3b'
                           }}>
-                            {p.status || 'Pending'}
-                          </span>
-                        </td>
-                        <td style={{ padding: '1rem', color: '#7f8c8d' }}>
-                          {new Date(p.createdAt).toLocaleDateString()}
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
-          )}
+                            {p.currency} {p.amount}
+                          </td>
+                          <td style={{ padding: '1rem', color: '#6b7280' }}>
+                            {p.currency}
+                          </td>
+                          <td style={{ padding: '1rem', color: '#6b7280' }}>
+                            {p.provider || 'Standard'}
+                          </td>
+                          <td style={{ padding: '1rem' }}>
+                            <span style={{
+                              padding: '0.4rem 0.875rem',
+                              borderRadius: '20px',
+                              fontSize: '0.8rem',
+                              fontWeight: '600',
+                              backgroundColor: isCompleted ? '#ecfdf5' : '#fef3c7',
+                              color: isCompleted ? '#059669' : '#f59e0b',
+                              textTransform: 'capitalize',
+                              border: `1px solid ${isCompleted ? '#a7f3d0' : '#fde68a'}`
+                            }}>
+                              {p.status || 'Pending'}
+                            </span>
+                          </td>
+                          <td style={{ padding: '1rem', color: '#6b7280' }}>
+                            {new Date(p.createdAt).toLocaleDateString()}
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>

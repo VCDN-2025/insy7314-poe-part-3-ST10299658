@@ -1,7 +1,7 @@
 // src/components/AdminLogin.jsx
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import api from "../services/api"; // Fixed import path
+import api from "../services/api";
 
 const AdminLogin = () => {
   const [email, setEmail] = useState("");
@@ -16,7 +16,6 @@ const AdminLogin = () => {
     setLoading(true);
 
     try {
-      // Call login API
       const res = await api.post("/auth/login", { email, password });
 
       console.log("Login response:", res.data);
@@ -46,133 +45,157 @@ const AdminLogin = () => {
 
   return (
     <div style={styles.container}>
-      <div style={styles.formCard}>
+      <div style={styles.contentWrapper}>
         {/* Header */}
         <div style={styles.header}>
-          <div style={styles.iconContainer}>
-            <span style={styles.icon}>👨‍💼</span>
+          <div style={styles.iconWrapper}>
+            <div style={styles.icon}>🔑</div>
           </div>
-          <h1 style={styles.title}>Administration Portal</h1>
-          <p style={styles.subtitle}>Login for Administrators & Employees</p>
+          <h1 style={styles.title}>Admin Portal</h1>
+          <p style={styles.subtitle}>Staff access for administrators & employees</p>
         </div>
 
-        {/* Error Message */}
-        {error && (
-          <div style={styles.errorBox}>
-            <span style={styles.errorIcon}>⚠️</span>
-            <span>{error}</span>
-          </div>
-        )}
+        {/* Login Card */}
+        <div style={styles.formCard}>
+          {/* Error Message */}
+          {error && (
+            <div style={styles.errorBox}>
+              <span style={{ fontSize: '1.2rem' }}>⚠️</span>
+              <span>{error}</span>
+            </div>
+          )}
 
-        {/* Login Form */}
-        <form onSubmit={handleLogin} style={styles.form}>
-          <div style={styles.inputGroup}>
-            <label style={styles.label}>
-              <span style={styles.labelIcon}>📧</span>
-              Email Address
-            </label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="admin@bankportal.com"
-              required
-              style={styles.input}
+          {/* Login Form */}
+          <form onSubmit={handleLogin} style={styles.form}>
+            <div style={styles.inputGroup}>
+              <label style={styles.label}>
+                Email Address <span style={{ color: '#059669' }}>*</span>
+              </label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="admin@portal.com"
+                required
+                style={styles.input}
+                disabled={loading}
+                onFocus={(e) => e.target.style.borderColor = '#059669'}
+                onBlur={(e) => e.target.style.borderColor = '#e5e7eb'}
+              />
+            </div>
+
+            <div style={styles.inputGroup}>
+              <label style={styles.label}>
+                Password <span style={{ color: '#059669' }}>*</span>
+              </label>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Enter your password"
+                required
+                style={styles.input}
+                disabled={loading}
+                onFocus={(e) => e.target.style.borderColor = '#059669'}
+                onBlur={(e) => e.target.style.borderColor = '#e5e7eb'}
+              />
+            </div>
+
+            <button
+              type="submit"
+              style={{
+                ...styles.submitButton,
+                opacity: loading ? 0.6 : 1,
+                cursor: loading ? 'not-allowed' : 'pointer'
+              }}
               disabled={loading}
-            />
-          </div>
+              onMouseEnter={(e) => {
+                if (!loading) {
+                  e.target.style.transform = 'translateY(-1px)';
+                  e.target.style.boxShadow = '0 6px 16px rgba(5, 150, 105, 0.4)';
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (!loading) {
+                  e.target.style.transform = 'translateY(0)';
+                  e.target.style.boxShadow = '0 4px 12px rgba(5, 150, 105, 0.3)';
+                }
+              }}
+            >
+              {loading ? "Verifying..." : "Access Portal"}
+            </button>
+          </form>
 
-          <div style={styles.inputGroup}>
-            <label style={styles.label}>
-              <span style={styles.labelIcon}>🔒</span>
-              Password
-            </label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Enter your password"
-              required
-              style={styles.input}
-              disabled={loading}
-            />
-          </div>
-
-          <button
-            type="submit"
-            style={{
-              ...styles.submitButton,
-              opacity: loading ? 0.7 : 1,
-              cursor: loading ? 'not-allowed' : 'pointer'
-            }}
-            disabled={loading}
-          >
-            {loading ? (
-              <>
-                <span style={styles.spinner}></span>
-                Logging in...
-              </>
-            ) : (
-              <>🔐 Login to Administration</>
-            )}
-          </button>
-        </form>
-
-        {/* Footer */}
-        <div style={styles.footer}>
+          {/* Divider */}
           <div style={styles.divider}>
+            <div style={styles.dividerLine}></div>
             <span style={styles.dividerText}>or</span>
+            <div style={styles.dividerLine}></div>
           </div>
+
+          {/* Customer Login Button */}
           <button
             onClick={() => navigate("/login")}
             style={styles.customerButton}
             disabled={loading}
+            onMouseEnter={(e) => {
+              if (!loading) {
+                e.target.style.backgroundColor = '#f9fafb';
+                e.target.style.borderColor = '#059669';
+              }
+            }}
+            onMouseLeave={(e) => {
+              if (!loading) {
+                e.target.style.backgroundColor = 'white';
+                e.target.style.borderColor = '#e5e7eb';
+              }
+            }}
           >
-            👤 Customer Login
+            Customer Login →
           </button>
         </div>
 
-        {/* Info Box */}
-        <div style={styles.infoBox}>
-          <p style={styles.infoText}>
-            <strong>🔐 Secure Access:</strong> This portal is exclusively for authorized 
-            administrators and employees. All login attempts are monitored and logged.
-          </p>
-        </div>
-      </div>
-
-      {/* Side Info Panel */}
-      <div style={styles.sidePanel}>
-        <h2 style={styles.sidePanelTitle}>Administration Access</h2>
-        <div style={styles.featureList}>
-          <div style={styles.feature}>
-            <span style={styles.featureIcon}>👨‍💼</span>
-            <div>
-              <h3 style={styles.featureTitle}>Administrator</h3>
-              <p style={styles.featureText}>
-                Manage employees, view all transactions, and oversee system operations
-              </p>
-            </div>
+        {/* Role Cards */}
+        <div style={styles.roleCards}>
+          <div style={styles.roleCard}>
+            <div style={styles.roleIcon}>👨‍💼</div>
+            <div style={styles.roleTitle}>Administrator</div>
+            <div style={styles.roleText}>Full system access and management</div>
           </div>
-          <div style={styles.feature}>
-            <span style={styles.featureIcon}>👔</span>
-            <div>
-              <h3 style={styles.featureTitle}>Employee</h3>
-              <p style={styles.featureText}>
-                Verify and process customer payments, monitor transaction status
-              </p>
-            </div>
+          <div style={styles.roleCard}>
+            <div style={styles.roleIcon}>👔</div>
+            <div style={styles.roleTitle}>Employee</div>
+            <div style={styles.roleText}>Payment verification and processing</div>
           </div>
         </div>
 
+        {/* Security Info */}
         <div style={styles.securityBadge}>
-          <span style={styles.securityIcon}>🛡️</span>
+          <div style={styles.securityIcon}>🛡️</div>
           <div>
-            <h4 style={styles.securityTitle}>Enterprise Security</h4>
-            <p style={styles.securityText}>
-              Multi-factor authentication • Encrypted connections • Audit logging
-            </p>
+            <div style={styles.securityTitle}>Authorized Access Only</div>
+            <div style={styles.securityText}>
+              All login attempts are monitored and logged for security
+            </div>
           </div>
+        </div>
+
+        {/* Back Link */}
+        <div style={styles.footer}>
+          <button
+            onClick={() => navigate("/")}
+            style={styles.backLink}
+            onMouseEnter={(e) => {
+              e.target.style.color = '#059669';
+              e.target.style.textDecoration = 'underline';
+            }}
+            onMouseLeave={(e) => {
+              e.target.style.color = '#6b7280';
+              e.target.style.textDecoration = 'none';
+            }}
+          >
+            ← Back to Main Portal
+          </button>
         </div>
       </div>
     </div>
@@ -185,65 +208,71 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-    padding: '2rem',
-    gap: '3rem'
+    background: 'linear-gradient(to bottom right, #ecfdf5 0%, #d1fae5 50%, #a7f3d0 100%)',
+    padding: '2rem 1rem'
   },
-  formCard: {
-    backgroundColor: 'white',
-    borderRadius: '16px',
-    padding: '3rem',
-    maxWidth: '450px',
+  contentWrapper: {
     width: '100%',
-    boxShadow: '0 20px 60px rgba(0,0,0,0.3)'
+    maxWidth: '480px'
   },
   header: {
     textAlign: 'center',
     marginBottom: '2rem'
   },
-  iconContainer: {
+  iconWrapper: {
+    display: 'flex',
+    justifyContent: 'center',
+    marginBottom: '1.5rem'
+  },
+  icon: {
     width: '80px',
     height: '80px',
-    backgroundColor: '#f3f4f6',
-    borderRadius: '50%',
+    background: 'linear-gradient(135deg, #059669 0%, #10b981 100%)',
+    borderRadius: '20px',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    margin: '0 auto 1.5rem'
-  },
-  icon: {
-    fontSize: '3rem'
+    fontSize: '2.5rem',
+    boxShadow: '0 8px 20px rgba(5, 150, 105, 0.3)'
   },
   title: {
-    fontSize: '1.875rem',
-    fontWeight: '700',
-    color: '#1f2937',
-    margin: '0 0 0.5rem 0'
+    fontSize: '2rem',
+    fontWeight: '800',
+    color: '#064e3b',
+    margin: '0 0 0.5rem 0',
+    letterSpacing: '-0.5px'
   },
   subtitle: {
     fontSize: '1rem',
-    color: '#6b7280',
-    margin: 0
+    color: '#065f46',
+    margin: 0,
+    fontWeight: '500'
+  },
+  formCard: {
+    backgroundColor: 'white',
+    borderRadius: '16px',
+    boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
+    border: '1px solid #e5e7eb',
+    padding: '2.5rem',
+    marginBottom: '1.5rem'
   },
   errorBox: {
-    backgroundColor: '#fee2e2',
-    border: '1px solid #ef4444',
-    borderRadius: '8px',
-    padding: '1rem',
+    backgroundColor: '#fef2f2',
+    border: '1px solid #fecaca',
+    borderRadius: '10px',
+    padding: '0.875rem',
     marginBottom: '1.5rem',
     display: 'flex',
     alignItems: 'center',
-    gap: '0.75rem',
-    color: '#991b1b',
-    fontSize: '0.95rem'
-  },
-  errorIcon: {
-    fontSize: '1.5rem'
+    gap: '0.5rem',
+    color: '#dc2626',
+    fontSize: '0.9rem'
   },
   form: {
     display: 'flex',
     flexDirection: 'column',
-    gap: '1.5rem'
+    gap: '1.25rem',
+    marginBottom: '1.5rem'
   },
   inputGroup: {
     display: 'flex',
@@ -251,182 +280,135 @@ const styles = {
     gap: '0.5rem'
   },
   label: {
-    fontSize: '0.95rem',
+    fontSize: '0.9rem',
     fontWeight: '600',
-    color: '#374151',
-    display: 'flex',
-    alignItems: 'center',
-    gap: '0.5rem'
-  },
-  labelIcon: {
-    fontSize: '1.2rem'
+    color: '#374151'
   },
   input: {
-    padding: '0.875rem 1rem',
-    fontSize: '1rem',
+    padding: '0.75rem 1rem',
+    fontSize: '0.95rem',
     border: '2px solid #e5e7eb',
-    borderRadius: '8px',
+    borderRadius: '10px',
     outline: 'none',
-    transition: 'all 0.3s',
-    fontFamily: 'inherit'
+    transition: 'all 0.2s',
+    backgroundColor: 'white'
   },
   submitButton: {
-    padding: '1rem',
-    backgroundColor: '#667eea',
+    padding: '0.875rem',
+    background: 'linear-gradient(135deg, #059669 0%, #10b981 100%)',
     color: 'white',
     border: 'none',
-    borderRadius: '8px',
-    fontSize: '1.1rem',
+    borderRadius: '10px',
+    fontSize: '1rem',
     fontWeight: '600',
     cursor: 'pointer',
-    transition: 'all 0.3s',
+    transition: 'all 0.2s',
     marginTop: '0.5rem',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: '0.5rem'
-  },
-  spinner: {
-    width: '20px',
-    height: '20px',
-    border: '3px solid rgba(255,255,255,0.3)',
-    borderTop: '3px solid white',
-    borderRadius: '50%',
-    animation: 'spin 1s linear infinite',
-    display: 'inline-block'
-  },
-  footer: {
-    marginTop: '2rem'
+    boxShadow: '0 4px 12px rgba(5, 150, 105, 0.3)'
   },
   divider: {
-    position: 'relative',
-    textAlign: 'center',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '1rem',
     marginBottom: '1rem'
   },
+  dividerLine: {
+    flex: 1,
+    height: '1px',
+    backgroundColor: '#e5e7eb'
+  },
   dividerText: {
-    backgroundColor: 'white',
-    padding: '0 1rem',
     color: '#9ca3af',
-    fontSize: '0.875rem',
-    position: 'relative',
-    zIndex: 1
+    fontSize: '0.85rem',
+    fontWeight: '500'
   },
   customerButton: {
     width: '100%',
     padding: '0.875rem',
     backgroundColor: 'white',
-    color: '#667eea',
-    border: '2px solid #667eea',
-    borderRadius: '8px',
-    fontSize: '1rem',
+    color: '#374151',
+    border: '2px solid #e5e7eb',
+    borderRadius: '10px',
+    fontSize: '0.95rem',
     fontWeight: '600',
     cursor: 'pointer',
-    transition: 'all 0.3s'
+    transition: 'all 0.2s'
   },
-  infoBox: {
-    marginTop: '1.5rem',
-    padding: '1rem',
-    backgroundColor: '#f3f4f6',
-    borderRadius: '8px',
-    border: '1px solid #e5e7eb'
-  },
-  infoText: {
-    fontSize: '0.875rem',
-    color: '#4b5563',
-    margin: 0,
-    lineHeight: '1.6'
-  },
-  sidePanel: {
-    maxWidth: '400px',
-    color: 'white'
-  },
-  sidePanelTitle: {
-    fontSize: '2rem',
-    fontWeight: '700',
-    marginBottom: '2rem',
-    color: 'white'
-  },
-  featureList: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '1.5rem',
-    marginBottom: '2rem'
-  },
-  feature: {
-    display: 'flex',
+  roleCards: {
+    display: 'grid',
+    gridTemplateColumns: '1fr 1fr',
     gap: '1rem',
-    alignItems: 'flex-start'
+    marginBottom: '1.5rem'
   },
-  featureIcon: {
-    fontSize: '2.5rem',
-    flexShrink: 0
+  roleCard: {
+    backgroundColor: 'white',
+    borderRadius: '16px',
+    padding: '1.5rem',
+    boxShadow: '0 2px 10px rgba(0,0,0,0.06)',
+    border: '1px solid #e5e7eb',
+    textAlign: 'center'
   },
-  featureTitle: {
-    fontSize: '1.25rem',
-    fontWeight: '600',
-    margin: '0 0 0.5rem 0'
+  roleIcon: {
+    fontSize: '2rem',
+    marginBottom: '0.75rem'
   },
-  featureText: {
+  roleTitle: {
     fontSize: '0.95rem',
-    opacity: 0.9,
-    margin: 0,
-    lineHeight: '1.5'
+    fontWeight: '700',
+    color: '#064e3b',
+    marginBottom: '0.5rem'
+  },
+  roleText: {
+    fontSize: '0.8rem',
+    color: '#6b7280',
+    lineHeight: '1.4'
   },
   securityBadge: {
-    backgroundColor: 'rgba(255,255,255,0.15)',
+    backgroundColor: '#fffbeb',
+    borderRadius: '16px',
     padding: '1.5rem',
-    borderRadius: '12px',
+    border: '1px solid #fde68a',
     display: 'flex',
+    alignItems: 'center',
     gap: '1rem',
-    alignItems: 'flex-start',
-    border: '1px solid rgba(255,255,255,0.2)'
+    marginBottom: '1.5rem'
   },
   securityIcon: {
-    fontSize: '2rem',
+    width: '48px',
+    height: '48px',
+    background: '#fef3c7',
+    borderRadius: '12px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    fontSize: '1.5rem',
     flexShrink: 0
   },
   securityTitle: {
-    fontSize: '1.1rem',
-    fontWeight: '600',
-    margin: '0 0 0.5rem 0'
+    fontSize: '0.95rem',
+    fontWeight: '700',
+    color: '#92400e',
+    marginBottom: '0.25rem'
   },
   securityText: {
-    fontSize: '0.875rem',
-    opacity: 0.9,
-    margin: 0,
-    lineHeight: '1.5'
+    fontSize: '0.85rem',
+    color: '#b45309',
+    lineHeight: '1.4'
+  },
+  footer: {
+    textAlign: 'center'
+  },
+  backLink: {
+    color: '#6b7280',
+    fontSize: '0.9rem',
+    textDecoration: 'none',
+    fontWeight: '500',
+    background: 'none',
+    border: 'none',
+    cursor: 'pointer',
+    transition: 'all 0.2s',
+    padding: '0.5rem'
   }
 };
-
-// Add CSS for animations and hover effects
-const styleSheet = document.createElement("style");
-styleSheet.textContent = `
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
-  
-  input:focus {
-    border-color: #667eea !important;
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1) !important;
-  }
-  
-  button[type="submit"]:hover:not(:disabled) {
-    background-color: #5568d3 !important;
-    transform: translateY(-2px);
-    box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
-  }
-  
-  button[type="submit"]:active:not(:disabled) {
-    transform: translateY(0);
-  }
-  
-  @media (max-width: 968px) {
-    .side-panel {
-      display: none;
-    }
-  }
-`;
-document.head.appendChild(styleSheet);
 
 export default AdminLogin;

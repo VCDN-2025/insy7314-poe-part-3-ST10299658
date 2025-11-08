@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { registerUser } from "../services/api";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 function Register() {
   const [form, setForm] = useState({
@@ -104,193 +104,368 @@ function Register() {
   };
 
   return (
-    <div style={{ 
-      maxWidth: '500px', 
-      margin: '0 auto', 
-      backgroundColor: 'white',
-      padding: '2rem',
-      borderRadius: '8px',
-      boxShadow: '0 2px 10px rgba(0,0,0,0.1)'
+    <div style={{
+      minHeight: 'calc(100vh - 400px)',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: '2rem 1rem'
     }}>
-      <form onSubmit={handleSubmit}>
-        <div style={{ marginBottom: '1rem' }}>
-          <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>
-            Full Name: *
-          </label>
-          <input 
-            name="fullName" 
-            value={form.fullName} 
-            onChange={handleChange}
-            required 
-            disabled={loading}
-            style={{
-              width: '100%',
-              padding: '0.75rem',
-              border: '1px solid #ddd',
-              borderRadius: '4px',
-              fontSize: '1rem'
-            }}
-            placeholder="Enter your full name"
-          />
-        </div>
-        
-        <div style={{ marginBottom: '1rem' }}>
-          <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>
-            Email: (Optional)
-          </label>
-          <input 
-            name="email" 
-            type="email" 
-            value={form.email} 
-            onChange={handleChange}
-            disabled={loading}
-            style={{
-              width: '100%',
-              padding: '0.75rem',
-              border: '1px solid #ddd',
-              borderRadius: '4px',
-              fontSize: '1rem'
-            }}
-            placeholder="Enter your email"
-          />
-        </div>
-        
-        <div style={{ marginBottom: '1rem' }}>
-          <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>
-            ID Number: *
-          </label>
-          <input 
-            name="idNumber" 
-            value={form.idNumber} 
-            onChange={handleChange}
-            required 
-            disabled={loading}
-            style={{
-              width: '100%',
-              padding: '0.75rem',
-              border: '1px solid #ddd',
-              borderRadius: '4px',
-              fontSize: '1rem'
-            }}
-            placeholder="13-digit ID number"
-            maxLength="13"
-          />
-        </div>
-        
-        <div style={{ marginBottom: '1rem' }}>
-          <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>
-            Account Number: *
-          </label>
-          <input 
-            name="accountNumber" 
-            value={form.accountNumber} 
-            onChange={handleChange}
-            required 
-            disabled={loading}
-            style={{
-              width: '100%',
-              padding: '0.75rem',
-              border: '1px solid #ddd',
-              borderRadius: '4px',
-              fontSize: '1rem'
-            }}
-            placeholder="6-20 digit account number"
-            maxLength="20"
-          />
-        </div>
-        
-        <div style={{ marginBottom: '1rem' }}>
-          <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>
-            Password: *
-          </label>
-          <input 
-            name="password" 
-            type="password" 
-            value={form.password} 
-            onChange={handleChange}
-            required 
-            disabled={loading}
-            style={{
-              width: '100%',
-              padding: '0.75rem',
-              border: '1px solid #ddd',
-              borderRadius: '4px',
-              fontSize: '1rem'
-            }}
-            placeholder="Strong password required"
-            maxLength="128"
-          />
-          <small style={{ color: '#666', fontSize: '0.8rem' }}>
-            Must contain: uppercase, lowercase, number, special character (@$!%*?&)
-          </small>
-        </div>
-        
-        <div style={{ marginBottom: '1rem' }}>
-          <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>
-            Confirm Password: *
-          </label>
-          <input 
-            name="confirmPassword" 
-            type="password" 
-            value={form.confirmPassword} 
-            onChange={handleChange}
-            required 
-            disabled={loading}
-            style={{
-              width: '100%',
-              padding: '0.75rem',
-              border: '1px solid #ddd',
-              borderRadius: '4px',
-              fontSize: '1rem'
-            }}
-            placeholder="Confirm your password"
-            maxLength="128"
-          />
-        </div>
-        
-        <button 
-          type="submit"
-          disabled={loading}
-          style={{
-            width: '100%',
-            padding: '0.75rem',
-            backgroundColor: loading ? '#95a5a6' : '#27ae60',
-            color: 'white',
-            border: 'none',
-            borderRadius: '4px',
-            fontSize: '1rem',
-            cursor: loading ? 'not-allowed' : 'pointer'
-          }}
-        >
-          {loading ? "Registering..." : "Register"}
-        </button>
-        
-        {error && (
-          <p style={{ 
-            color: '#e74c3c', 
-            marginTop: '1rem', 
-            textAlign: 'center',
-            backgroundColor: '#fadbd8',
-            padding: '0.75rem',
-            borderRadius: '4px'
+      <div style={{ 
+        maxWidth: '500px',
+        width: '100%',
+        backgroundColor: 'white',
+        padding: '2.5rem',
+        borderRadius: '16px',
+        boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
+        border: '1px solid #e5e7eb'
+      }}>
+        {/* Header */}
+        <div style={{ marginBottom: '2rem', textAlign: 'center' }}>
+          <div style={{
+            width: '64px',
+            height: '64px',
+            background: 'linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%)',
+            borderRadius: '16px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontSize: '2rem',
+            margin: '0 auto 1rem'
           }}>
-            {error}
-          </p>
-        )}
-        
-        {success && (
-          <p style={{ 
-            color: '#27ae60', 
-            marginTop: '1rem', 
-            textAlign: 'center',
-            backgroundColor: '#d5f4e6',
-            padding: '0.75rem',
-            borderRadius: '4px'
+            ✨
+          </div>
+          <h2 style={{
+            fontSize: '1.875rem',
+            fontWeight: '800',
+            color: '#064e3b',
+            margin: '0 0 0.5rem 0'
           }}>
-            {success}
+            Create Account
+          </h2>
+          <p style={{
+            color: '#6b7280',
+            fontSize: '0.95rem',
+            margin: 0
+          }}>
+            Join our secure payment platform
           </p>
-        )}
-      </form>
+        </div>
+
+        <form onSubmit={handleSubmit}>
+          {/* Full Name */}
+          <div style={{ marginBottom: '1.25rem' }}>
+            <label style={{ 
+              display: 'block', 
+              marginBottom: '0.5rem', 
+              fontWeight: '600',
+              color: '#374151',
+              fontSize: '0.9rem'
+            }}>
+              Full Name <span style={{ color: '#059669' }}>*</span>
+            </label>
+            <input 
+              name="fullName" 
+              value={form.fullName} 
+              onChange={handleChange}
+              required 
+              disabled={loading}
+              style={{
+                width: '100%',
+                padding: '0.75rem 1rem',
+                border: '2px solid #e5e7eb',
+                borderRadius: '10px',
+                fontSize: '0.95rem',
+                transition: 'all 0.2s',
+                outline: 'none',
+                backgroundColor: loading ? '#f9fafb' : 'white'
+              }}
+              placeholder="Enter your full name"
+              onFocus={(e) => e.target.style.borderColor = '#059669'}
+              onBlur={(e) => e.target.style.borderColor = '#e5e7eb'}
+            />
+          </div>
+          
+          {/* Email */}
+          <div style={{ marginBottom: '1.25rem' }}>
+            <label style={{ 
+              display: 'block', 
+              marginBottom: '0.5rem', 
+              fontWeight: '600',
+              color: '#374151',
+              fontSize: '0.9rem'
+            }}>
+              Email <span style={{ color: '#6b7280', fontWeight: '400' }}>(Optional)</span>
+            </label>
+            <input 
+              name="email" 
+              type="email" 
+              value={form.email} 
+              onChange={handleChange}
+              disabled={loading}
+              style={{
+                width: '100%',
+                padding: '0.75rem 1rem',
+                border: '2px solid #e5e7eb',
+                borderRadius: '10px',
+                fontSize: '0.95rem',
+                transition: 'all 0.2s',
+                outline: 'none',
+                backgroundColor: loading ? '#f9fafb' : 'white'
+              }}
+              placeholder="your.email@example.com"
+              onFocus={(e) => e.target.style.borderColor = '#059669'}
+              onBlur={(e) => e.target.style.borderColor = '#e5e7eb'}
+            />
+          </div>
+          
+          {/* ID Number */}
+          <div style={{ marginBottom: '1.25rem' }}>
+            <label style={{ 
+              display: 'block', 
+              marginBottom: '0.5rem', 
+              fontWeight: '600',
+              color: '#374151',
+              fontSize: '0.9rem'
+            }}>
+              ID Number <span style={{ color: '#059669' }}>*</span>
+            </label>
+            <input 
+              name="idNumber" 
+              value={form.idNumber} 
+              onChange={handleChange}
+              required 
+              disabled={loading}
+              style={{
+                width: '100%',
+                padding: '0.75rem 1rem',
+                border: '2px solid #e5e7eb',
+                borderRadius: '10px',
+                fontSize: '0.95rem',
+                transition: 'all 0.2s',
+                outline: 'none',
+                backgroundColor: loading ? '#f9fafb' : 'white'
+              }}
+              placeholder="13-digit ID number"
+              maxLength="13"
+              onFocus={(e) => e.target.style.borderColor = '#059669'}
+              onBlur={(e) => e.target.style.borderColor = '#e5e7eb'}
+            />
+          </div>
+          
+          {/* Account Number */}
+          <div style={{ marginBottom: '1.25rem' }}>
+            <label style={{ 
+              display: 'block', 
+              marginBottom: '0.5rem', 
+              fontWeight: '600',
+              color: '#374151',
+              fontSize: '0.9rem'
+            }}>
+              Account Number <span style={{ color: '#059669' }}>*</span>
+            </label>
+            <input 
+              name="accountNumber" 
+              value={form.accountNumber} 
+              onChange={handleChange}
+              required 
+              disabled={loading}
+              style={{
+                width: '100%',
+                padding: '0.75rem 1rem',
+                border: '2px solid #e5e7eb',
+                borderRadius: '10px',
+                fontSize: '0.95rem',
+                transition: 'all 0.2s',
+                outline: 'none',
+                backgroundColor: loading ? '#f9fafb' : 'white'
+              }}
+              placeholder="6-20 digit account number"
+              maxLength="20"
+              onFocus={(e) => e.target.style.borderColor = '#059669'}
+              onBlur={(e) => e.target.style.borderColor = '#e5e7eb'}
+            />
+          </div>
+          
+          {/* Password */}
+          <div style={{ marginBottom: '1.25rem' }}>
+            <label style={{ 
+              display: 'block', 
+              marginBottom: '0.5rem', 
+              fontWeight: '600',
+              color: '#374151',
+              fontSize: '0.9rem'
+            }}>
+              Password <span style={{ color: '#059669' }}>*</span>
+            </label>
+            <input 
+              name="password" 
+              type="password" 
+              value={form.password} 
+              onChange={handleChange}
+              required 
+              disabled={loading}
+              style={{
+                width: '100%',
+                padding: '0.75rem 1rem',
+                border: '2px solid #e5e7eb',
+                borderRadius: '10px',
+                fontSize: '0.95rem',
+                transition: 'all 0.2s',
+                outline: 'none',
+                backgroundColor: loading ? '#f9fafb' : 'white'
+              }}
+              placeholder="Create a strong password"
+              maxLength="128"
+              onFocus={(e) => e.target.style.borderColor = '#059669'}
+              onBlur={(e) => e.target.style.borderColor = '#e5e7eb'}
+            />
+            <small style={{ 
+              color: '#6b7280', 
+              fontSize: '0.8rem',
+              display: 'block',
+              marginTop: '0.5rem',
+              lineHeight: '1.4'
+            }}>
+              Must contain: uppercase, lowercase, number, special character (@$!%*?&)
+            </small>
+          </div>
+          
+          {/* Confirm Password */}
+          <div style={{ marginBottom: '1.5rem' }}>
+            <label style={{ 
+              display: 'block', 
+              marginBottom: '0.5rem', 
+              fontWeight: '600',
+              color: '#374151',
+              fontSize: '0.9rem'
+            }}>
+              Confirm Password <span style={{ color: '#059669' }}>*</span>
+            </label>
+            <input 
+              name="confirmPassword" 
+              type="password" 
+              value={form.confirmPassword} 
+              onChange={handleChange}
+              required 
+              disabled={loading}
+              style={{
+                width: '100%',
+                padding: '0.75rem 1rem',
+                border: '2px solid #e5e7eb',
+                borderRadius: '10px',
+                fontSize: '0.95rem',
+                transition: 'all 0.2s',
+                outline: 'none',
+                backgroundColor: loading ? '#f9fafb' : 'white'
+              }}
+              placeholder="Confirm your password"
+              maxLength="128"
+              onFocus={(e) => e.target.style.borderColor = '#059669'}
+              onBlur={(e) => e.target.style.borderColor = '#e5e7eb'}
+            />
+          </div>
+          
+          {/* Submit Button */}
+          <button 
+            type="submit"
+            disabled={loading}
+            style={{
+              width: '100%',
+              padding: '0.875rem',
+              background: loading ? '#9ca3af' : 'linear-gradient(135deg, #059669 0%, #10b981 100%)',
+              color: 'white',
+              border: 'none',
+              borderRadius: '10px',
+              fontSize: '1rem',
+              fontWeight: '600',
+              cursor: loading ? 'not-allowed' : 'pointer',
+              transition: 'all 0.2s',
+              boxShadow: loading ? 'none' : '0 4px 12px rgba(5, 150, 105, 0.3)'
+            }}
+            onMouseEnter={(e) => {
+              if (!loading) {
+                e.target.style.transform = 'translateY(-1px)';
+                e.target.style.boxShadow = '0 6px 16px rgba(5, 150, 105, 0.4)';
+              }
+            }}
+            onMouseLeave={(e) => {
+              if (!loading) {
+                e.target.style.transform = 'translateY(0)';
+                e.target.style.boxShadow = '0 4px 12px rgba(5, 150, 105, 0.3)';
+              }
+            }}
+          >
+            {loading ? "Creating Account..." : "Create Account"}
+          </button>
+          
+          {/* Error Message */}
+          {error && (
+            <div style={{ 
+              color: '#dc2626', 
+              marginTop: '1rem',
+              backgroundColor: '#fef2f2',
+              padding: '0.875rem',
+              borderRadius: '10px',
+              fontSize: '0.9rem',
+              border: '1px solid #fecaca',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.5rem'
+            }}>
+              <span style={{ fontSize: '1.2rem' }}>⚠️</span>
+              <span>{error}</span>
+            </div>
+          )}
+          
+          {/* Success Message */}
+          {success && (
+            <div style={{ 
+              color: '#059669', 
+              marginTop: '1rem',
+              backgroundColor: '#ecfdf5',
+              padding: '0.875rem',
+              borderRadius: '10px',
+              fontSize: '0.9rem',
+              border: '1px solid #a7f3d0',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.5rem'
+            }}>
+              <span style={{ fontSize: '1.2rem' }}>✅</span>
+              <span>{success}</span>
+            </div>
+          )}
+        </form>
+
+        {/* Footer Link */}
+        <div style={{
+          marginTop: '1.5rem',
+          paddingTop: '1.5rem',
+          borderTop: '1px solid #e5e7eb',
+          textAlign: 'center'
+        }}>
+          <p style={{
+            color: '#6b7280',
+            fontSize: '0.9rem',
+            margin: 0
+          }}>
+            Already have an account?{' '}
+            <Link 
+              to="/login" 
+              style={{
+                color: '#059669',
+                textDecoration: 'none',
+                fontWeight: '600'
+              }}
+              onMouseEnter={(e) => e.target.style.textDecoration = 'underline'}
+              onMouseLeave={(e) => e.target.style.textDecoration = 'none'}
+            >
+              Sign In
+            </Link>
+          </p>
+        </div>
+      </div>
     </div>
   );
 }

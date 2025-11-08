@@ -30,25 +30,14 @@ function Layout({ loggedIn, user, setLoggedIn, setUser, checkAuthStatus }) {
     <Link
       to={to}
       style={{
-        color: 'white',
-        textDecoration: 'none',
-        fontSize: '1rem',
-        fontWeight: '500',
         padding: '0.5rem 1rem',
-        borderRadius: '6px',
-        backgroundColor: isActive(to) ? 'rgba(255,255,255,0.15)' : 'transparent',
-        transition: 'all 0.3s',
-        display: 'inline-block'
-      }}
-      onMouseEnter={(e) => {
-        if (!isActive(to)) {
-          e.target.style.backgroundColor = 'rgba(255,255,255,0.1)';
-        }
-      }}
-      onMouseLeave={(e) => {
-        if (!isActive(to)) {
-          e.target.style.backgroundColor = 'transparent';
-        }
+        textDecoration: 'none',
+        color: isActive(to) ? '#047857' : '#6b7280',
+        fontWeight: isActive(to) ? '600' : '500',
+        fontSize: '0.95rem',
+        borderRadius: '8px',
+        backgroundColor: isActive(to) ? '#ecfdf5' : 'transparent',
+        transition: 'all 0.2s'
       }}
     >
       {children}
@@ -61,366 +50,313 @@ function Layout({ loggedIn, user, setLoggedIn, setUser, checkAuthStatus }) {
   const isAdmin = user?.role === 'admin';
 
   return (
-    <div style={{ minHeight: '100vh', backgroundColor: '#f8f9fa', display: 'flex', flexDirection: 'column' }}>
-      {/* Header/Navigation */}
-      <nav style={{
-        background: 'linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)',
-        boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+    <div style={{ minHeight: '100vh', backgroundColor: '#f9fafb' }}>
+      {/* Top Navigation Bar */}
+      <header style={{
+        background: '#ffffff',
+        borderBottom: '1px solid #e5e7eb',
         position: 'sticky',
         top: 0,
-        zIndex: 1000
+        zIndex: 1000,
+        boxShadow: '0 1px 3px rgba(0,0,0,0.05)'
       }}>
         <div style={{
-          maxWidth: '1400px',
+          maxWidth: '1280px',
           margin: '0 auto',
-          padding: '1rem 2rem'
+          padding: '1rem 1.5rem',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center'
         }}>
-          <div style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center'
-          }}>
-            {/* Logo */}
-            <Link
-              to="/"
-              style={{
-                color: 'white',
-                textDecoration: 'none',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '1rem'
-              }}
-            >
-              <div style={{
-                width: '50px',
-                height: '50px',
-                background: 'white',
-                borderRadius: '12px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontSize: '1.8rem',
-                boxShadow: '0 4px 8px rgba(0,0,0,0.2)'
-              }}>
-                💳
-              </div>
-              <div>
-                <div style={{
-                  fontSize: '1.5rem',
-                  fontWeight: '700',
-                  letterSpacing: '-0.5px'
-                }}>
-                  PAYMENTS PORTAL
-                </div>
-                <div style={{
-                  fontSize: '0.75rem',
-                  opacity: '0.9',
-                  letterSpacing: '2px',
-                  fontWeight: '500'
-                }}>
-                  SECURE • GLOBAL • INSTANT
-                </div>
-              </div>
-            </Link>
-
-            {/* Desktop Navigation */}
-            <div style={{ 
-              display: 'flex', 
-              gap: '0.5rem', 
+          {/* Logo */}
+          <Link
+            to="/"
+            style={{
+              textDecoration: 'none',
+              display: 'flex',
               alignItems: 'center',
-              flexWrap: 'wrap'
+              gap: '0.75rem'
+            }}
+          >
+            <div style={{
+              width: '40px',
+              height: '40px',
+              background: 'linear-gradient(135deg, #059669 0%, #10b981 100%)',
+              borderRadius: '10px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: '1.5rem'
             }}>
-              {loggedIn ? (
-                <>
-                  {/* Customer Navigation */}
-                  {isCustomer && (
-                    <>
-                      <NavLink to="/dashboard">
-                        📊 Dashboard
-                      </NavLink>
-                      <NavLink to="/make-payment">
-                        💰 Make Payment
-                      </NavLink>
-                      <NavLink to="/payments">
-                        📜 History
-                      </NavLink>
-                    </>
-                  )}
-
-                  {/* Employee Navigation */}
-                  {isEmployee && (
-                    <>
-                      <NavLink to="/employee-dashboard">
-                        📋 Dashboard
-                      </NavLink>
-                      <NavLink to="/employee-dashboard">
-                        🔍 Verify Payments
-                      </NavLink>
-                    </>
-                  )}
-
-                  {/* Admin Navigation */}
-                  {isAdmin && (
-                    <>
-                      <NavLink to="/admin/dashboard">
-                        🏦 Dashboard
-                      </NavLink>
-                      <NavLink to="/admin/employees">
-                        👥 Employees
-                      </NavLink>
-                      <NavLink to="/admin/transactions">
-                        💳 Transactions
-                      </NavLink>
-                    </>
-                  )}
-                  
-                  {/* User Info Badge */}
-                  <div style={{
-                    backgroundColor: 'rgba(255,255,255,0.15)',
-                    padding: '0.5rem 1rem',
-                    borderRadius: '8px',
-                    marginLeft: '1rem',
-                    border: '1px solid rgba(255,255,255,0.2)'
-                  }}>
-                    <div style={{ 
-                      color: 'white', 
-                      fontSize: '0.85rem',
-                      fontWeight: '500'
-                    }}>
-                      {isAdmin ? '👨‍💼' : isEmployee ? '👔' : '👤'} {user?.fullName}
-                    </div>
-                    <div style={{ 
-                      color: 'rgba(255,255,255,0.8)', 
-                      fontSize: '0.7rem',
-                      marginTop: '2px'
-                    }}>
-                      {isAdmin ? 'Administrator' : isEmployee ? 'Employee' : `Acc: ${user?.accountNumber}`}
-                    </div>
-                  </div>
-                  
-                  <button
-                    onClick={handleLogout}
-                    style={{
-                      backgroundColor: '#e74c3c',
-                      color: 'white',
-                      border: 'none',
-                      padding: '0.65rem 1.5rem',
-                      borderRadius: '8px',
-                      cursor: 'pointer',
-                      fontSize: '1rem',
-                      fontWeight: '600',
-                      marginLeft: '0.5rem',
-                      boxShadow: '0 2px 8px rgba(231,76,60,0.3)',
-                      transition: 'all 0.3s'
-                    }}
-                    onMouseEnter={(e) => {
-                      e.target.style.backgroundColor = '#c0392b';
-                      e.target.style.transform = 'translateY(-2px)';
-                      e.target.style.boxShadow = '0 4px 12px rgba(231,76,60,0.4)';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.target.style.backgroundColor = '#e74c3c';
-                      e.target.style.transform = 'translateY(0)';
-                      e.target.style.boxShadow = '0 2px 8px rgba(231,76,60,0.3)';
-                    }}
-                  >
-                    🚪 Logout
-                  </button>
-                </>
-              ) : (
-                <>
-                  <NavLink to="/login">
-                    🔐 Login
-                  </NavLink>
-                  <Link
-                    to="/register"
-                    style={{
-                      backgroundColor: 'rgba(255,255,255,0.95)',
-                      color: '#1e3c72',
-                      padding: '0.65rem 1.5rem',
-                      textDecoration: 'none',
-                      borderRadius: '8px',
-                      fontSize: '1rem',
-                      fontWeight: '600',
-                      marginLeft: '0.5rem',
-                      boxShadow: '0 2px 8px rgba(255,255,255,0.3)',
-                      transition: 'all 0.3s',
-                      display: 'inline-block'
-                    }}
-                    onMouseEnter={(e) => {
-                      e.target.style.backgroundColor = 'white';
-                      e.target.style.transform = 'translateY(-2px)';
-                      e.target.style.boxShadow = '0 4px 12px rgba(255,255,255,0.4)';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.target.style.backgroundColor = 'rgba(255,255,255,0.95)';
-                      e.target.style.transform = 'translateY(0)';
-                      e.target.style.boxShadow = '0 2px 8px rgba(255,255,255,0.3)';
-                    }}
-                  >
-                    ✨ Register Now
-                  </Link>
-                  <Link
-                    to="/admin/login"
-                    style={{
-                      backgroundColor: 'transparent',
-                      color: 'white',
-                      padding: '0.65rem 1.5rem',
-                      textDecoration: 'none',
-                      borderRadius: '8px',
-                      fontSize: '1rem',
-                      fontWeight: '600',
-                      marginLeft: '0.5rem',
-                      border: '2px solid rgba(255,255,255,0.5)',
-                      transition: 'all 0.3s',
-                      display: 'inline-block'
-                    }}
-                    onMouseEnter={(e) => {
-                      e.target.style.backgroundColor = 'rgba(255,255,255,0.1)';
-                      e.target.style.borderColor = 'white';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.target.style.backgroundColor = 'transparent';
-                      e.target.style.borderColor = 'rgba(255,255,255,0.5)';
-                    }}
-                  >
-                    👨‍💼 Administration
-                  </Link>
-                </>
-              )}
+              💳
             </div>
-          </div>
+            <span style={{
+              fontSize: '1.4rem',
+              fontWeight: '700',
+              color: '#047857',
+              letterSpacing: '-0.5px'
+            }}>
+              PAYMENTS PORTAL
+            </span>
+          </Link>
+
+          {/* Navigation Links */}
+          <nav style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.5rem'
+          }}>
+            {loggedIn ? (
+              <>
+                {/* Customer Navigation */}
+                {isCustomer && (
+                  <>
+                    <NavLink to="/dashboard">Dashboard</NavLink>
+                    <NavLink to="/make-payment">New Payment</NavLink>
+                    <NavLink to="/payments">Transactions</NavLink>
+                  </>
+                )}
+
+                {/* Employee Navigation */}
+                {isEmployee && (
+                  <>
+                    <NavLink to="/employee-dashboard">Dashboard</NavLink>
+                    <NavLink to="/employee-dashboard">Verify Payments</NavLink>
+                  </>
+                )}
+
+                {/* Admin Navigation */}
+                {isAdmin && (
+                  <>
+                    <NavLink to="/admin/dashboard">Dashboard</NavLink>
+                    <NavLink to="/admin/employees">Staff</NavLink>
+                    <NavLink to="/admin/transactions">All Transactions</NavLink>
+                  </>
+                )}
+
+                <div style={{
+                  height: '30px',
+                  width: '1px',
+                  backgroundColor: '#e5e7eb',
+                  margin: '0 0.5rem'
+                }} />
+
+                <div style={{
+                  padding: '0.5rem 1rem',
+                  backgroundColor: '#f3f4f6',
+                  borderRadius: '8px',
+                  fontSize: '0.875rem',
+                  color: '#374151'
+                }}>
+                  <div style={{ fontWeight: '600' }}>{user?.fullName}</div>
+                  {isAdmin && <div style={{ fontSize: '0.75rem', color: '#6b7280' }}>Admin</div>}
+                  {isEmployee && <div style={{ fontSize: '0.75rem', color: '#6b7280' }}>Staff</div>}
+                  {isCustomer && <div style={{ fontSize: '0.75rem', color: '#6b7280' }}>{user?.accountNumber}</div>}
+                </div>
+
+                <button
+                  onClick={handleLogout}
+                  style={{
+                    padding: '0.5rem 1.25rem',
+                    backgroundColor: '#ffffff',
+                    color: '#dc2626',
+                    border: '1px solid #fecaca',
+                    borderRadius: '8px',
+                    fontSize: '0.95rem',
+                    fontWeight: '500',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.target.style.backgroundColor = '#fef2f2';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.target.style.backgroundColor = '#ffffff';
+                  }}
+                >
+                  Logout
+                </button>
+              </>
+            ) : (
+              <>
+                <Link
+                  to="/login"
+                  style={{
+                    padding: '0.5rem 1.25rem',
+                    textDecoration: 'none',
+                    color: '#374151',
+                    fontWeight: '500',
+                    fontSize: '0.95rem',
+                    borderRadius: '8px',
+                    transition: 'all 0.2s'
+                  }}
+                >
+                  Sign In
+                </Link>
+                <Link
+                  to="/register"
+                  style={{
+                    padding: '0.5rem 1.25rem',
+                    background: 'linear-gradient(135deg, #059669 0%, #10b981 100%)',
+                    color: 'white',
+                    textDecoration: 'none',
+                    borderRadius: '8px',
+                    fontSize: '0.95rem',
+                    fontWeight: '600',
+                    transition: 'all 0.2s'
+                  }}
+                >
+                  Register
+                </Link>
+                <Link
+                  to="/admin/login"
+                  style={{
+                    padding: '0.5rem 1.25rem',
+                    backgroundColor: '#ffffff',
+                    color: '#059669',
+                    textDecoration: 'none',
+                    border: '2px solid #059669',
+                    borderRadius: '8px',
+                    fontSize: '0.95rem',
+                    fontWeight: '600',
+                    transition: 'all 0.2s'
+                  }}
+                >
+                  Admin Portal
+                </Link>
+              </>
+            )}
+          </nav>
         </div>
-      </nav>
+      </header>
 
       {/* Main Content */}
       <main style={{
-        flex: 1,
-        maxWidth: '1400px',
-        width: '100%',
+        maxWidth: '1280px',
         margin: '0 auto',
-        padding: '2rem'
+        padding: '2rem 1.5rem',
+        minHeight: 'calc(100vh - 200px)'
       }}>
         <Outlet context={{ loggedIn, user, setLoggedIn, setUser, checkAuthStatus }} />
       </main>
 
       {/* Footer */}
       <footer style={{
-        background: 'linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)',
-        color: 'white',
+        backgroundColor: '#ffffff',
+        borderTop: '1px solid #e5e7eb',
         marginTop: 'auto'
       }}>
         <div style={{
-          maxWidth: '1400px',
+          maxWidth: '1280px',
           margin: '0 auto',
-          padding: '3rem 2rem'
+          padding: '2.5rem 1.5rem'
         }}>
           {/* Footer Top - Info Sections */}
           <div style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-            gap: '3rem',
-            marginBottom: '3rem',
-            paddingBottom: '3rem',
-            borderBottom: '1px solid rgba(255,255,255,0.2)'
+            gap: '2.5rem',
+            marginBottom: '2.5rem',
+            paddingBottom: '2.5rem',
+            borderBottom: '1px solid #e5e7eb'
           }}>
             {/* About Section */}
             <div>
               <h4 style={{ 
-                fontSize: '1.2rem', 
+                fontSize: '1.15rem', 
                 marginBottom: '1rem',
-                fontWeight: '600'
+                fontWeight: '600',
+                color: '#047857'
               }}>
-                🏦 About Us
+                About
               </h4>
               <p style={{ 
                 margin: 0, 
-                lineHeight: '1.8',
-                opacity: '0.9',
+                lineHeight: '1.7',
+                color: '#6b7280',
                 fontSize: '0.95rem'
               }}>
-                Your trusted partner for secure international payments. We provide enterprise-grade security with bank-level encryption for all transactions worldwide.
+                Providing reliable payment processing services with secure transaction management for businesses globally.
               </p>
             </div>
 
-            {/* Quick Links */}
+            {/* Navigation */}
             <div>
               <h4 style={{ 
-                fontSize: '1.2rem', 
+                fontSize: '1.15rem', 
                 marginBottom: '1rem',
-                fontWeight: '600'
+                fontWeight: '600',
+                color: '#047857'
               }}>
-                🔗 Quick Links
+                Navigation
               </h4>
               <div style={{
                 display: 'flex',
                 flexDirection: 'column',
-                gap: '0.75rem'
+                gap: '0.7rem'
               }}>
-                <Link to="/" style={{ color: 'rgba(255,255,255,0.9)', textDecoration: 'none', fontSize: '0.95rem' }}>
-                  → Home
+                <Link to="/" style={{ color: '#6b7280', textDecoration: 'none', fontSize: '0.95rem' }}>
+                  Home
                 </Link>
-                <Link to="/login" style={{ color: 'rgba(255,255,255,0.9)', textDecoration: 'none', fontSize: '0.95rem' }}>
-                  → Login
+                <Link to="/login" style={{ color: '#6b7280', textDecoration: 'none', fontSize: '0.95rem' }}>
+                  Login
                 </Link>
-                <Link to="/register" style={{ color: 'rgba(255,255,255,0.9)', textDecoration: 'none', fontSize: '0.95rem' }}>
-                  → Register
-                </Link>
-                <Link to="/admin/login" style={{ color: 'rgba(255,255,255,0.9)', textDecoration: 'none', fontSize: '0.95rem' }}>
-                  → Administration
+                <Link to="/register" style={{ color: '#6b7280', textDecoration: 'none', fontSize: '0.95rem' }}>
+                  Register
                 </Link>
               </div>
             </div>
 
-            {/* Security Features */}
+            {/* Services */}
             <div>
               <h4 style={{ 
-                fontSize: '1.2rem', 
+                fontSize: '1.15rem', 
                 marginBottom: '1rem',
-                fontWeight: '600'
+                fontWeight: '600',
+                color: '#047857'
               }}>
-                🔒 Security
+                Services
               </h4>
               <div style={{
                 display: 'flex',
                 flexDirection: 'column',
-                gap: '0.75rem',
+                gap: '0.7rem',
                 fontSize: '0.95rem',
-                lineHeight: '1.6'
+                lineHeight: '1.6',
+                color: '#6b7280'
               }}>
-                <div style={{ opacity: '0.9' }}>✓ SSL/TLS Encryption</div>
-                <div style={{ opacity: '0.9' }}>✓ Password Hashing & Salting</div>
-                <div style={{ opacity: '0.9' }}>✓ Input Validation</div>
-                <div style={{ opacity: '0.9' }}>✓ Rate Limiting Protection</div>
-                <div style={{ opacity: '0.9' }}>✓ DevSecOps Pipeline</div>
+                <div>Payment Processing</div>
+                <div>Transaction Management</div>
+                <div>Account Services</div>
+                <div>Support Services</div>
               </div>
             </div>
 
             {/* Contact */}
             <div>
               <h4 style={{ 
-                fontSize: '1.2rem', 
+                fontSize: '1.15rem', 
                 marginBottom: '1rem',
-                fontWeight: '600'
+                fontWeight: '600',
+                color: '#047857'
               }}>
-                📞 Support
+                Contact
               </h4>
               <div style={{
                 display: 'flex',
                 flexDirection: 'column',
-                gap: '0.75rem',
+                gap: '0.7rem',
                 fontSize: '0.95rem',
-                opacity: '0.9'
+                color: '#6b7280'
               }}>
-                <div>📧 support@paymentsportal.com</div>
-                <div>📱 +27 (0) 11 123 4567</div>
-                <div>🕐 24/7 Customer Support</div>
-                <div>🌍 150+ Countries</div>
+                <div>support@portal.com</div>
+                <div>+1 (555) 123-4567</div>
+                <div>Mon-Fri: 9AM-5PM</div>
               </div>
             </div>
           </div>
 
-          {/* Footer Bottom - Copyright & Badges */}
+          {/* Footer Bottom */}
           <div style={{
             display: 'flex',
             justifyContent: 'space-between',
@@ -428,24 +364,34 @@ function Layout({ loggedIn, user, setLoggedIn, setUser, checkAuthStatus }) {
             flexWrap: 'wrap',
             gap: '1rem'
           }}>
-            <div>
-              <p style={{ 
-                margin: 0, 
-                fontSize: '0.95rem',
-                opacity: '0.9'
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.75rem'
+            }}>
+              <div style={{
+                width: '32px',
+                height: '32px',
+                background: 'linear-gradient(135deg, #059669 0%, #10b981 100%)',
+                borderRadius: '8px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: '1.2rem'
               }}>
-                © 2025 International Payments Portal. All rights reserved.
-              </p>
-              <p style={{ 
-                margin: '0.5rem 0 0 0', 
-                fontSize: '0.85rem',
-                opacity: '0.8'
-              }}>
-                Built with enterprise-grade security • Powered by SWIFT Network
-              </p>
+                💳
+              </div>
+              <div>
+                <div style={{
+                  fontSize: '0.875rem',
+                  color: '#6b7280'
+                }}>
+                  © 2025 Payment Processing System. All rights reserved.
+                </div>
+              </div>
             </div>
 
-            {/* Trust Badges */}
+            {/* Trust Indicators */}
             <div style={{
               display: 'flex',
               gap: '1rem',
@@ -453,57 +399,28 @@ function Layout({ loggedIn, user, setLoggedIn, setUser, checkAuthStatus }) {
               flexWrap: 'wrap'
             }}>
               <div style={{
-                padding: '0.5rem 1rem',
-                backgroundColor: 'rgba(255,255,255,0.15)',
+                padding: '0.4rem 0.9rem',
+                backgroundColor: '#ecfdf5',
                 borderRadius: '6px',
                 fontSize: '0.85rem',
                 fontWeight: '600',
-                border: '1px solid rgba(255,255,255,0.2)'
+                color: '#047857',
+                border: '1px solid #a7f3d0'
               }}>
-                🔒 SSL Secured
+                Secure Platform
               </div>
               <div style={{
-                padding: '0.5rem 1rem',
-                backgroundColor: 'rgba(255,255,255,0.15)',
+                padding: '0.4rem 0.9rem',
+                backgroundColor: '#ecfdf5',
                 borderRadius: '6px',
                 fontSize: '0.85rem',
                 fontWeight: '600',
-                border: '1px solid rgba(255,255,255,0.2)'
+                color: '#047857',
+                border: '1px solid #a7f3d0'
               }}>
-                ✓ PCI Compliant
-              </div>
-              <div style={{
-                padding: '0.5rem 1rem',
-                backgroundColor: 'rgba(255,255,255,0.15)',
-                borderRadius: '6px',
-                fontSize: '0.85rem',
-                fontWeight: '600',
-                border: '1px solid rgba(255,255,255,0.2)'
-              }}>
-                🛡️ Bank-Grade Security
+                Encrypted
               </div>
             </div>
-          </div>
-
-          {/* Security Notice */}
-          <div style={{
-            marginTop: '2rem',
-            padding: '1.5rem',
-            backgroundColor: 'rgba(255,255,255,0.1)',
-            borderRadius: '8px',
-            textAlign: 'center',
-            border: '1px solid rgba(255,255,255,0.2)'
-          }}>
-            <p style={{ 
-              margin: 0, 
-              fontSize: '0.9rem',
-              lineHeight: '1.6',
-              opacity: '0.95'
-            }}>
-              <strong>🔐 Your Security is Our Priority:</strong> All transactions are encrypted with 256-bit SSL/TLS. 
-              We never store sensitive payment information. Your data is protected by multiple layers of security 
-              including input validation, password hashing, and continuous monitoring.
-            </p>
           </div>
         </div>
       </footer>

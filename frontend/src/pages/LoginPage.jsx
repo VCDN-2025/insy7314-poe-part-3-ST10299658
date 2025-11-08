@@ -5,66 +5,63 @@ import Login from "../components/Login";
 function LoginPage() {
   return (
     <div style={{ 
-      backgroundColor: '#f8f9fa', 
-      minHeight: '100vh', 
-      marginTop: '-2rem', 
-      marginLeft: '-2rem', 
-      marginRight: '-2rem',
-      paddingTop: '3rem',
-      paddingBottom: '3rem'
+      backgroundColor: '#f9fafb',
+      minHeight: '100vh',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: '2rem 1rem'
     }}>
-      {/* Header Section */}
       <div style={{
-        background: 'linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)',
-        color: 'white',
-        padding: '3rem 2rem',
-        textAlign: 'center',
-        marginBottom: '3rem'
+        maxWidth: '480px',
+        width: '100%'
       }}>
-        <div style={{ maxWidth: '800px', margin: '0 auto' }}>
-          {/* Logo */}
-          <div style={{ marginBottom: '2rem' }}>
-            <svg width="100" height="100" viewBox="0 0 1024 1024" style={{ margin: '0 auto', display: 'block' }}>
-              <rect width="1024" height="1024" rx="200" fill="#1E88E5"/>
-              <g transform="translate(200, 200)">
-                <rect x="0" y="0" width="624" height="400" rx="40" fill="white"/>
-                <rect x="0" y="0" width="624" height="120" rx="40" fill="white"/>
-                <rect x="80" y="200" width="200" height="40" rx="20" fill="#1E88E5"/>
-              </g>
-            </svg>
+        {/* Header Section */}
+        <div style={{
+          textAlign: 'center',
+          marginBottom: '2rem'
+        }}>
+          <div style={{
+            width: '80px',
+            height: '80px',
+            background: 'linear-gradient(135deg, #059669 0%, #10b981 100%)',
+            borderRadius: '20px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontSize: '2.5rem',
+            margin: '0 auto 1.5rem',
+            boxShadow: '0 8px 20px rgba(5, 150, 105, 0.3)'
+          }}>
+            💳
           </div>
 
           <h1 style={{ 
-            fontSize: '2.5rem', 
-            marginBottom: '1rem',
-            fontWeight: '700',
+            fontSize: '2rem', 
+            marginBottom: '0.5rem',
+            fontWeight: '800',
+            color: '#064e3b',
             letterSpacing: '-0.5px'
           }}>
             Welcome Back
           </h1>
           <p style={{ 
-            fontSize: '1.2rem', 
-            opacity: '0.95',
+            fontSize: '1rem', 
+            color: '#6b7280',
             margin: 0
           }}>
-            Login to access your secure payment portal
+            Sign in to access your payment portal
           </p>
         </div>
-      </div>
 
-      {/* Main Content */}
-      <div style={{
-        maxWidth: '500px',
-        margin: '0 auto',
-        padding: '0 2rem'
-      }}>
         {/* Login Form Card */}
         <div style={{
           backgroundColor: 'white',
-          borderRadius: '12px',
+          borderRadius: '16px',
           padding: '2.5rem',
-          boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
-          marginBottom: '2rem'
+          boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
+          border: '1px solid #e5e7eb',
+          marginBottom: '1.5rem'
         }}>
           <Login />
         </div>
@@ -72,126 +69,225 @@ function LoginPage() {
         {/* Register CTA Card */}
         <div style={{
           backgroundColor: 'white',
-          borderRadius: '12px',
-          padding: '2rem',
-          boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
+          borderRadius: '16px',
+          padding: '1.75rem',
+          boxShadow: '0 2px 10px rgba(0,0,0,0.06)',
+          border: '1px solid #e5e7eb',
           textAlign: 'center',
-          marginBottom: '2rem'
+          marginBottom: '1.5rem'
         }}>
           <p style={{
-            color: '#6c757d',
-            marginBottom: '1.5rem',
-            fontSize: '1.1rem'
+            color: '#6b7280',
+            marginBottom: '1rem',
+            fontSize: '0.95rem'
           }}>
-            Don't have an account?
+            Don't have an account yet?
           </p>
           
           <Link
             to="/register"
             style={{
-              backgroundColor: '#27ae60',
+              background: 'linear-gradient(135deg, #059669 0%, #10b981 100%)',
               color: 'white',
-              padding: '1rem 2.5rem',
+              padding: '0.875rem 2rem',
               textDecoration: 'none',
-              borderRadius: '8px',
-              fontSize: '1.1rem',
+              borderRadius: '10px',
+              fontSize: '0.95rem',
               fontWeight: '600',
-              boxShadow: '0 4px 6px rgba(39, 174, 96, 0.2)',
+              boxShadow: '0 4px 12px rgba(5, 150, 105, 0.3)',
               display: 'inline-block',
-              transition: 'transform 0.2s'
+              transition: 'all 0.2s'
+            }}
+            onMouseEnter={(e) => {
+              e.target.style.transform = 'translateY(-2px)';
+              e.target.style.boxShadow = '0 6px 16px rgba(5, 150, 105, 0.4)';
+            }}
+            onMouseLeave={(e) => {
+              e.target.style.transform = 'translateY(0)';
+              e.target.style.boxShadow = '0 4px 12px rgba(5, 150, 105, 0.3)';
             }}
           >
-            Create New Account →
+            Create Account →
           </Link>
         </div>
 
-        {/* Security Notice Card */}
+        {/* Security Features - MOVED UP */}
         <div style={{
           backgroundColor: 'white',
-          borderRadius: '12px',
-          padding: '2rem',
-          boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
-          borderLeft: '4px solid #ffc107'
+          borderRadius: '16px',
+          padding: '1.75rem',
+          boxShadow: '0 2px 10px rgba(0,0,0,0.06)',
+          border: '1px solid #e5e7eb',
+          marginBottom: '1.5rem'
+        }}>
+          <h3 style={{
+            color: '#064e3b',
+            fontSize: '1rem',
+            marginBottom: '1.25rem',
+            fontWeight: '700',
+            textAlign: 'center',
+            textTransform: 'uppercase',
+            letterSpacing: '0.5px'
+          }}>
+            Secure Platform
+          </h3>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(3, 1fr)',
+            gap: '1rem'
+          }}>
+            <div style={{
+              textAlign: 'center',
+              padding: '1rem 0.5rem'
+            }}>
+              <div style={{ 
+                width: '48px',
+                height: '48px',
+                background: 'linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%)',
+                borderRadius: '12px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: '1.5rem',
+                margin: '0 auto 0.75rem'
+              }}>
+                🔐
+              </div>
+              <div style={{ 
+                color: '#6b7280', 
+                fontSize: '0.85rem',
+                fontWeight: '600'
+              }}>
+                Encrypted
+              </div>
+            </div>
+            <div style={{
+              textAlign: 'center',
+              padding: '1rem 0.5rem'
+            }}>
+              <div style={{ 
+                width: '48px',
+                height: '48px',
+                background: 'linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%)',
+                borderRadius: '12px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: '1.5rem',
+                margin: '0 auto 0.75rem'
+              }}>
+                🛡️
+              </div>
+              <div style={{ 
+                color: '#6b7280', 
+                fontSize: '0.85rem',
+                fontWeight: '600'
+              }}>
+                Secured
+              </div>
+            </div>
+            <div style={{
+              textAlign: 'center',
+              padding: '1rem 0.5rem'
+            }}>
+              <div style={{ 
+                width: '48px',
+                height: '48px',
+                background: 'linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%)',
+                borderRadius: '12px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: '1.5rem',
+                margin: '0 auto 0.75rem'
+              }}>
+                ✓
+              </div>
+              <div style={{ 
+                color: '#6b7280', 
+                fontSize: '0.85rem',
+                fontWeight: '600'
+              }}>
+                Validated
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Security Notice Card - MOVED TO BOTTOM */}
+        <div style={{
+          backgroundColor: '#fffbeb',
+          borderRadius: '16px',
+          padding: '1.5rem',
+          border: '1px solid #fde68a'
         }}>
           <div style={{ 
             display: 'flex',
             alignItems: 'flex-start',
             gap: '1rem'
           }}>
-            <span style={{ fontSize: '2rem' }}>⚠️</span>
+            <div style={{
+              width: '40px',
+              height: '40px',
+              background: '#fef3c7',
+              borderRadius: '10px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: '1.5rem',
+              flexShrink: 0
+            }}>
+              ⚠️
+            </div>
             <div>
               <h4 style={{ 
-                color: '#856404', 
-                marginBottom: '0.75rem',
-                fontSize: '1.2rem',
-                fontWeight: '600'
+                color: '#92400e', 
+                marginBottom: '0.5rem',
+                fontSize: '1rem',
+                fontWeight: '700'
               }}>
-                Security Notice
+                Account Protection
               </h4>
               <p style={{ 
-                color: '#856404', 
-                fontSize: '1rem', 
+                color: '#b45309', 
+                fontSize: '0.85rem', 
                 margin: 0,
-                lineHeight: '1.6'
+                lineHeight: '1.5'
               }}>
-                After 5 failed login attempts, your account will be temporarily locked for 15 minutes for security purposes.
+                Multiple failed login attempts will result in temporary account restrictions for your protection.
               </p>
             </div>
           </div>
         </div>
 
-        {/* Security Features */}
+        {/* Admin Portal Link */}
         <div style={{
-          marginTop: '3rem',
-          textAlign: 'center'
+          textAlign: 'center',
+          marginTop: '1.5rem'
         }}>
-          <h3 style={{
-            color: '#1e3c72',
-            fontSize: '1.3rem',
-            marginBottom: '1.5rem',
-            fontWeight: '600'
-          }}>
-            Your Security is Our Priority
-          </h3>
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))',
-            gap: '1rem'
-          }}>
-            <div style={{
-              backgroundColor: 'white',
-              padding: '1.5rem 1rem',
-              borderRadius: '8px',
-              boxShadow: '0 2px 6px rgba(0,0,0,0.06)'
-            }}>
-              <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>🔐</div>
-              <div style={{ color: '#6c757d', fontSize: '0.9rem' }}>
-                SSL Encrypted
-              </div>
-            </div>
-            <div style={{
-              backgroundColor: 'white',
-              padding: '1.5rem 1rem',
-              borderRadius: '8px',
-              boxShadow: '0 2px 6px rgba(0,0,0,0.06)'
-            }}>
-              <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>🛡️</div>
-              <div style={{ color: '#6c757d', fontSize: '0.9rem' }}>
-                Protected Data
-              </div>
-            </div>
-            <div style={{
-              backgroundColor: 'white',
-              padding: '1.5rem 1rem',
-              borderRadius: '8px',
-              boxShadow: '0 2px 6px rgba(0,0,0,0.06)'
-            }}>
-              <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>⚡</div>
-              <div style={{ color: '#6c757d', fontSize: '0.9rem' }}>
-                Rate Limited
-              </div>
-            </div>
-          </div>
+          <Link
+            to="/admin/login"
+            style={{
+              color: '#6b7280',
+              fontSize: '0.875rem',
+              textDecoration: 'none',
+              fontWeight: '500',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.5rem'
+            }}
+            onMouseEnter={(e) => {
+              e.target.style.color = '#059669';
+              e.target.style.textDecoration = 'underline';
+            }}
+            onMouseLeave={(e) => {
+              e.target.style.color = '#6b7280';
+              e.target.style.textDecoration = 'none';
+            }}
+          >
+            <span>🔑</span>
+            <span>Admin Portal Access</span>
+          </Link>
         </div>
       </div>
     </div>

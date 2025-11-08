@@ -5,66 +5,63 @@ import Register from "../components/Register";
 function RegisterPage() {
   return (
     <div style={{ 
-      backgroundColor: '#f8f9fa', 
-      minHeight: '100vh', 
-      marginTop: '-2rem', 
-      marginLeft: '-2rem', 
-      marginRight: '-2rem',
-      paddingTop: '3rem',
-      paddingBottom: '3rem'
+      backgroundColor: '#f9fafb',
+      minHeight: '100vh',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: '2rem 1rem'
     }}>
-      {/* Header Section */}
       <div style={{
-        background: 'linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)',
-        color: 'white',
-        padding: '3rem 2rem',
-        textAlign: 'center',
-        marginBottom: '3rem'
+        maxWidth: '580px',
+        width: '100%'
       }}>
-        <div style={{ maxWidth: '800px', margin: '0 auto' }}>
-          {/* Logo */}
-          <div style={{ marginBottom: '2rem' }}>
-            <svg width="100" height="100" viewBox="0 0 1024 1024" style={{ margin: '0 auto', display: 'block' }}>
-              <rect width="1024" height="1024" rx="200" fill="#1E88E5"/>
-              <g transform="translate(200, 200)">
-                <rect x="0" y="0" width="624" height="400" rx="40" fill="white"/>
-                <rect x="0" y="0" width="624" height="120" rx="40" fill="white"/>
-                <rect x="80" y="200" width="200" height="40" rx="20" fill="#1E88E5"/>
-              </g>
-            </svg>
+        {/* Header Section */}
+        <div style={{
+          textAlign: 'center',
+          marginBottom: '2rem'
+        }}>
+          <div style={{
+            width: '80px',
+            height: '80px',
+            background: 'linear-gradient(135deg, #059669 0%, #10b981 100%)',
+            borderRadius: '20px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontSize: '2.5rem',
+            margin: '0 auto 1.5rem',
+            boxShadow: '0 8px 20px rgba(5, 150, 105, 0.3)'
+          }}>
+            ✨
           </div>
 
           <h1 style={{ 
-            fontSize: '2.5rem', 
-            marginBottom: '1rem',
-            fontWeight: '700',
+            fontSize: '2rem', 
+            marginBottom: '0.5rem',
+            fontWeight: '800',
+            color: '#064e3b',
             letterSpacing: '-0.5px'
           }}>
             Create Your Account
           </h1>
           <p style={{ 
-            fontSize: '1.2rem', 
-            opacity: '0.95',
+            fontSize: '1rem', 
+            color: '#6b7280',
             margin: 0
           }}>
-            Join thousands of users making secure international payments
+            Join our secure payment platform today
           </p>
         </div>
-      </div>
 
-      {/* Main Content */}
-      <div style={{
-        maxWidth: '600px',
-        margin: '0 auto',
-        padding: '0 2rem'
-      }}>
         {/* Register Form Card */}
         <div style={{
           backgroundColor: 'white',
-          borderRadius: '12px',
+          borderRadius: '16px',
           padding: '2.5rem',
-          boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
-          marginBottom: '2rem'
+          boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
+          border: '1px solid #e5e7eb',
+          marginBottom: '1.5rem'
         }}>
           <Register />
         </div>
@@ -72,16 +69,17 @@ function RegisterPage() {
         {/* Login CTA Card */}
         <div style={{
           backgroundColor: 'white',
-          borderRadius: '12px',
-          padding: '2rem',
-          boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
+          borderRadius: '16px',
+          padding: '1.75rem',
+          boxShadow: '0 2px 10px rgba(0,0,0,0.06)',
+          border: '1px solid #e5e7eb',
           textAlign: 'center',
-          marginBottom: '2rem'
+          marginBottom: '1.5rem'
         }}>
           <p style={{
-            color: '#6c757d',
-            marginBottom: '1.5rem',
-            fontSize: '1.1rem'
+            color: '#6b7280',
+            marginBottom: '1rem',
+            fontSize: '0.95rem'
           }}>
             Already have an account?
           </p>
@@ -89,125 +87,237 @@ function RegisterPage() {
           <Link
             to="/login"
             style={{
-              backgroundColor: '#3498db',
+              background: 'linear-gradient(135deg, #059669 0%, #10b981 100%)',
               color: 'white',
-              padding: '1rem 2.5rem',
+              padding: '0.875rem 2rem',
               textDecoration: 'none',
-              borderRadius: '8px',
-              fontSize: '1.1rem',
+              borderRadius: '10px',
+              fontSize: '0.95rem',
               fontWeight: '600',
-              boxShadow: '0 4px 6px rgba(52, 152, 219, 0.2)',
+              boxShadow: '0 4px 12px rgba(5, 150, 105, 0.3)',
               display: 'inline-block',
-              transition: 'transform 0.2s'
+              transition: 'all 0.2s'
+            }}
+            onMouseEnter={(e) => {
+              e.target.style.transform = 'translateY(-2px)';
+              e.target.style.boxShadow = '0 6px 16px rgba(5, 150, 105, 0.4)';
+            }}
+            onMouseLeave={(e) => {
+              e.target.style.transform = 'translateY(0)';
+              e.target.style.boxShadow = '0 4px 12px rgba(5, 150, 105, 0.3)';
             }}
           >
-            Login Here →
+            Sign In →
           </Link>
         </div>
 
-        {/* Security Requirements Card */}
+        {/* Platform Features - MOVED UP */}
         <div style={{
           backgroundColor: 'white',
-          borderRadius: '12px',
-          padding: '2rem',
-          boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
-          borderLeft: '4px solid #27ae60'
+          borderRadius: '16px',
+          padding: '1.75rem',
+          boxShadow: '0 2px 10px rgba(0,0,0,0.06)',
+          border: '1px solid #e5e7eb',
+          marginBottom: '1.5rem'
+        }}>
+          <h3 style={{
+            color: '#064e3b',
+            fontSize: '1rem',
+            marginBottom: '1.25rem',
+            fontWeight: '700',
+            textAlign: 'center',
+            textTransform: 'uppercase',
+            letterSpacing: '0.5px'
+          }}>
+            Platform Features
+          </h3>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(2, 1fr)',
+            gap: '1rem'
+          }}>
+            <div style={{
+              textAlign: 'center',
+              padding: '1rem'
+            }}>
+              <div style={{ 
+                width: '48px',
+                height: '48px',
+                background: 'linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%)',
+                borderRadius: '12px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: '1.5rem',
+                margin: '0 auto 0.75rem'
+              }}>
+                💸
+              </div>
+              <div style={{ 
+                color: '#6b7280', 
+                fontSize: '0.85rem',
+                fontWeight: '600'
+              }}>
+                Payment Processing
+              </div>
+            </div>
+            <div style={{
+              textAlign: 'center',
+              padding: '1rem'
+            }}>
+              <div style={{ 
+                width: '48px',
+                height: '48px',
+                background: 'linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%)',
+                borderRadius: '12px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: '1.5rem',
+                margin: '0 auto 0.75rem'
+              }}>
+                🔄
+              </div>
+              <div style={{ 
+                color: '#6b7280', 
+                fontSize: '0.85rem',
+                fontWeight: '600'
+              }}>
+                Quick Transfers
+              </div>
+            </div>
+            <div style={{
+              textAlign: 'center',
+              padding: '1rem'
+            }}>
+              <div style={{ 
+                width: '48px',
+                height: '48px',
+                background: 'linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%)',
+                borderRadius: '12px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: '1.5rem',
+                margin: '0 auto 0.75rem'
+              }}>
+                🔐
+              </div>
+              <div style={{ 
+                color: '#6b7280', 
+                fontSize: '0.85rem',
+                fontWeight: '600'
+              }}>
+                Secure Platform
+              </div>
+            </div>
+            <div style={{
+              textAlign: 'center',
+              padding: '1rem'
+            }}>
+              <div style={{ 
+                width: '48px',
+                height: '48px',
+                background: 'linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%)',
+                borderRadius: '12px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: '1.5rem',
+                margin: '0 auto 0.75rem'
+              }}>
+                📊
+              </div>
+              <div style={{ 
+                color: '#6b7280', 
+                fontSize: '0.85rem',
+                fontWeight: '600'
+              }}>
+                Activity Tracking
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Requirements Card - MOVED TO BOTTOM */}
+        <div style={{
+          backgroundColor: '#ecfdf5',
+          borderRadius: '16px',
+          padding: '1.5rem',
+          border: '1px solid #a7f3d0'
         }}>
           <div style={{ 
             display: 'flex',
             alignItems: 'flex-start',
             gap: '1rem'
           }}>
-            <span style={{ fontSize: '2rem' }}>✓</span>
+            <div style={{
+              width: '40px',
+              height: '40px',
+              background: '#d1fae5',
+              borderRadius: '10px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: '1.5rem',
+              flexShrink: 0
+            }}>
+              📋
+            </div>
             <div style={{ flex: 1 }}>
               <h4 style={{ 
-                color: '#155724', 
-                marginBottom: '1rem',
-                fontSize: '1.2rem',
-                fontWeight: '600'
+                color: '#065f46', 
+                marginBottom: '0.75rem',
+                fontSize: '1rem',
+                fontWeight: '700'
               }}>
-                Security Requirements
+                Account Requirements
               </h4>
               <ul style={{ 
-                color: '#155724', 
-                fontSize: '1rem', 
+                color: '#047857', 
+                fontSize: '0.85rem', 
                 margin: 0,
-                paddingLeft: '1.5rem',
-                lineHeight: '2'
+                paddingLeft: '1.25rem',
+                lineHeight: '1.8'
               }}>
-                <li>All fields marked with * are required</li>
-                <li>ID Number must be exactly 13 digits</li>
-                <li>Account Number must be 6-20 digits</li>
-                <li>Password must contain uppercase, lowercase, number, and special character</li>
-                <li>All input is validated and sanitized for security</li>
+                <li>Required fields are marked with *</li>
+                <li>ID Number: exactly 13 digits</li>
+                <li>Account Number: 6-20 digits</li>
+                <li>Password: minimum 8 characters with uppercase, lowercase, numbers, and special characters</li>
+                <li>Input validation applied for security</li>
               </ul>
             </div>
           </div>
         </div>
 
-        {/* Registration Benefits */}
+        {/* Admin Portal Link */}
         <div style={{
-          marginTop: '3rem',
-          textAlign: 'center'
+          textAlign: 'center',
+          marginTop: '1.5rem'
         }}>
-          <h3 style={{
-            color: '#1e3c72',
-            fontSize: '1.3rem',
-            marginBottom: '1.5rem',
-            fontWeight: '600'
-          }}>
-            What You'll Get
-          </h3>
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))',
-            gap: '1rem'
-          }}>
-            <div style={{
-              backgroundColor: 'white',
-              padding: '1.5rem 1rem',
-              borderRadius: '8px',
-              boxShadow: '0 2px 6px rgba(0,0,0,0.06)'
-            }}>
-              <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>🌍</div>
-              <div style={{ color: '#6c757d', fontSize: '0.9rem', fontWeight: '500' }}>
-                Global Payments
-              </div>
-            </div>
-            <div style={{
-              backgroundColor: 'white',
-              padding: '1.5rem 1rem',
-              borderRadius: '8px',
-              boxShadow: '0 2px 6px rgba(0,0,0,0.06)'
-            }}>
-              <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>⚡</div>
-              <div style={{ color: '#6c757d', fontSize: '0.9rem', fontWeight: '500' }}>
-                Instant Transfers
-              </div>
-            </div>
-            <div style={{
-              backgroundColor: 'white',
-              padding: '1.5rem 1rem',
-              borderRadius: '8px',
-              boxShadow: '0 2px 6px rgba(0,0,0,0.06)'
-            }}>
-              <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>🔒</div>
-              <div style={{ color: '#6c757d', fontSize: '0.9rem', fontWeight: '500' }}>
-                Bank-Level Security
-              </div>
-            </div>
-            <div style={{
-              backgroundColor: 'white',
-              padding: '1.5rem 1rem',
-              borderRadius: '8px',
-              boxShadow: '0 2px 6px rgba(0,0,0,0.06)'
-            }}>
-              <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>📊</div>
-              <div style={{ color: '#6c757d', fontSize: '0.9rem', fontWeight: '500' }}>
-                Transaction History
-              </div>
-            </div>
-          </div>
+          <Link
+            to="/admin/login"
+            style={{
+              color: '#6b7280',
+              fontSize: '0.875rem',
+              textDecoration: 'none',
+              fontWeight: '500',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.5rem'
+            }}
+            onMouseEnter={(e) => {
+              e.target.style.color = '#059669';
+              e.target.style.textDecoration = 'underline';
+            }}
+            onMouseLeave={(e) => {
+              e.target.style.color = '#6b7280';
+              e.target.style.textDecoration = 'none';
+            }}
+          >
+            <span>🔑</span>
+            <span>Admin Portal Access</span>
+          </Link>
         </div>
       </div>
     </div>
