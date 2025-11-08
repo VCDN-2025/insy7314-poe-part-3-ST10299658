@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { CheckCircle, Clock, XCircle, DollarSign, LogOut, AlertCircle, User } from "lucide-react";
+import { CheckCircle, Clock, XCircle, DollarSign, LogOut, AlertCircle, User, TrendingUp, FileCheck } from "lucide-react";
 import api from "../services/api";
 import { logout } from "../services/api";
 
@@ -68,7 +68,6 @@ export default function EmployeeDashboardPage() {
       await api.patch(`/payments/${id}/complete`);
       showMessage("✅ Payment submitted to SWIFT successfully", "success");
 
-      // Move to completed and remove from pending
       const completedPayment = payments.find(p => p._id === id);
       if (completedPayment) {
         setCompletedPayments(prev => [...prev, { ...completedPayment, status: "completed", completedAt: new Date() }]);
@@ -96,7 +95,7 @@ export default function EmployeeDashboardPage() {
     return (
       <div className="loading-container">
         <div className="loading-spinner"></div>
-        <p className="loading-text">Loading payments...</p>
+        <p className="loading-text">Loading payment queue...</p>
       </div>
     );
   }
@@ -106,16 +105,16 @@ export default function EmployeeDashboardPage() {
 
   return (
     <div className="dashboard-container">
-      <div className="bg-decoration"></div>
-      
       {/* Header */}
       <header className="dashboard-header">
         <div className="header-content">
           <div className="header-left">
-            <div className="header-icon">💼</div>
+            <div className="header-icon-box">
+              <FileCheck size={32} />
+            </div>
             <div>
               <h1 className="header-title">Employee Portal</h1>
-              <p className="header-subtitle">Verify and process customer payments</p>
+              <p className="header-subtitle">Payment Verification & Processing</p>
             </div>
           </div>
           <div className="header-right">
@@ -141,130 +140,123 @@ export default function EmployeeDashboardPage() {
 
       {/* Stats Cards */}
       <div className="stats-grid">
-        <div className="stat-card total-card">
-          <div className="stat-icon-wrapper total-icon">
-            <DollarSign size={28} />
+        <div className="stat-card">
+          <div className="stat-icon total">
+            <TrendingUp size={24} />
           </div>
-          <div className="stat-content">
-            <div className="stat-number">{payments.length}</div>
-            <div className="stat-label">Total Payments</div>
+          <div className="stat-info">
+            <div className="stat-value">{payments.length}</div>
+            <div className="stat-label">Total in Queue</div>
           </div>
         </div>
         
-        <div className="stat-card pending-card">
-          <div className="stat-icon-wrapper pending-icon">
-            <Clock size={28} />
+        <div className="stat-card">
+          <div className="stat-icon pending">
+            <Clock size={24} />
           </div>
-          <div className="stat-content">
-            <div className="stat-number">{pendingCount}</div>
-            <div className="stat-label">Pending Verification</div>
+          <div className="stat-info">
+            <div className="stat-value">{pendingCount}</div>
+            <div className="stat-label">Awaiting Review</div>
           </div>
-          {pendingCount > 0 && <div className="stat-badge pending-badge">Needs Action</div>}
         </div>
         
-        <div className="stat-card verified-card">
-          <div className="stat-icon-wrapper verified-icon">
-            <CheckCircle size={28} />
+        <div className="stat-card">
+          <div className="stat-icon verified">
+            <CheckCircle size={24} />
           </div>
-          <div className="stat-content">
-            <div className="stat-number">{verifiedCount}</div>
+          <div className="stat-info">
+            <div className="stat-value">{verifiedCount}</div>
             <div className="stat-label">Ready to Submit</div>
           </div>
-          {verifiedCount > 0 && <div className="stat-badge verified-badge">Ready</div>}
         </div>
       </div>
 
-      {/* Instructions */}
-      <div className="instruction-card">
-        <div className="instruction-header">
-          <AlertCircle size={24} />
-          <h3>Instructions</h3>
+      {/* Instructions Banner */}
+      <div className="instruction-banner">
+        <div className="instruction-icon">
+          <AlertCircle size={22} />
         </div>
-        <ul className="instruction-list">
-          <li>Review each payment carefully before verification</li>
-          <li>Verify that the SWIFT code is correct for the recipient bank</li>
-          <li>Check that account information matches the payee details</li>
-          <li>Click "Verify" to approve a payment</li>
-          <li>Click "Submit to SWIFT" only after verification is complete</li>
-        </ul>
+        <div className="instruction-content">
+          <h3>Verification Guidelines</h3>
+          <p>Review payment details carefully • Verify SWIFT codes • Confirm account information • Process in order of priority</p>
+        </div>
       </div>
 
       {/* Payments Section */}
       <div className="payments-section">
-        <h2 className="section-title">Payment Queue</h2>
+        <div className="section-header">
+          <h2 className="section-title">Payment Queue</h2>
+          <div className="section-badge">{payments.length} Payment{payments.length !== 1 ? 's' : ''}</div>
+        </div>
         
         {payments.length === 0 ? (
           <div className="empty-state">
-            <div className="empty-icon">📭</div>
-            <p className="empty-title">No pending payments</p>
-            <p className="empty-subtitle">All caught up! Check back later for new payments.</p>
+            <div className="empty-icon">✓</div>
+            <h3 className="empty-title">All Clear!</h3>
+            <p className="empty-subtitle">No pending payments at this time. Great work!</p>
           </div>
         ) : (
-          <div className="payments-grid">
+          <div className="payments-list">
             {payments.map((payment) => (
-              <div key={payment._id} className="payment-card">
-                {/* Card Header */}
-                <div className="payment-header">
-                  <div className="payment-user">
-                    <div className="user-avatar">
-                      {payment.user?.fullName?.charAt(0) || "U"}
+              <div key={payment._id} className="payment-item">
+                <div className="payment-left">
+                  <div className="payment-header-row">
+                    <div className="payment-id">
+                      <span className="id-label">Payment ID:</span>
+                      <span className="id-value">{payment._id.slice(-8).toUpperCase()}</span>
                     </div>
-                    <div>
-                      <div className="user-name">{payment.user?.fullName || "N/A"}</div>
-                      <div className="user-date">{new Date(payment.createdAt).toLocaleDateString()}</div>
+                    <div className={`status-pill ${payment.status}`}>
+                      {payment.status === "pending" && <Clock size={14} />}
+                      {payment.status === "verified" && <CheckCircle size={14} />}
+                      <span>{payment.status === "pending" ? "Pending Review" : "Verified"}</span>
                     </div>
-                  </div>
-                  <div className={`status-badge ${payment.status}`}>
-                    {payment.status === "pending" && <Clock size={14} />}
-                    {payment.status === "verified" && <CheckCircle size={14} />}
-                    <span>{payment.status.toUpperCase()}</span>
-                  </div>
-                </div>
-
-                {/* Card Body */}
-                <div className="payment-body">
-                  <div className="payment-amount">
-                    <span className="currency">{payment.currency}</span>
-                    <span className="amount">{payment.amount.toLocaleString()}</span>
                   </div>
 
-                  <div className="payment-details">
-                    <div className="detail-row">
-                      <span className="detail-label">Recipient</span>
-                      <span className="detail-value">{payment.recipientAccount}</span>
+                  <div className="payment-amount-display">
+                    <span className="currency-sign">{payment.currency}</span>
+                    <span className="amount-large">{payment.amount.toLocaleString()}</span>
+                  </div>
+
+                  <div className="payment-info-grid">
+                    <div className="info-item">
+                      <span className="info-label">Customer</span>
+                      <span className="info-value">{payment.user?.fullName || "N/A"}</span>
                     </div>
-                    <div className="detail-row">
-                      <span className="detail-label">SWIFT Code</span>
-                      <span className="detail-value swift-code">{payment.swiftCode}</span>
+                    <div className="info-item">
+                      <span className="info-label">Recipient Account</span>
+                      <span className="info-value">{payment.recipientAccount}</span>
                     </div>
-                    <div className="detail-row">
-                      <span className="detail-label">Provider</span>
-                      <span className="detail-value">{payment.provider}</span>
+                    <div className="info-item">
+                      <span className="info-label">SWIFT Code</span>
+                      <span className="info-value swift">{payment.swiftCode}</span>
                     </div>
-                    <div className="detail-row">
-                      <span className="detail-label">Time</span>
-                      <span className="detail-value">
-                        {new Date(payment.createdAt).toLocaleTimeString()}
+                    <div className="info-item">
+                      <span className="info-label">Provider</span>
+                      <span className="info-value">{payment.provider}</span>
+                    </div>
+                    <div className="info-item">
+                      <span className="info-label">Submitted</span>
+                      <span className="info-value">
+                        {new Date(payment.createdAt).toLocaleDateString()} at {new Date(payment.createdAt).toLocaleTimeString()}
                       </span>
                     </div>
                   </div>
                 </div>
 
-                {/* Card Footer - Actions */}
-                <div className="payment-footer">
+                <div className="payment-actions">
                   {payment.status === "pending" && (
                     <button
                       onClick={() => handleVerify(payment._id)}
-                      className="action-btn verify-btn"
+                      className="action-button verify"
                     >
                       <CheckCircle size={18} />
-                      <span>Verify Payment</span>
+                      <span>Verify</span>
                     </button>
                   )}
                   {payment.status === "verified" && (
                     <button
                       onClick={() => handleComplete(payment._id)}
-                      className="action-btn complete-btn"
+                      className="action-button submit"
                     >
                       <DollarSign size={18} />
                       <span>Submit to SWIFT</span>
@@ -279,45 +271,50 @@ export default function EmployeeDashboardPage() {
 
       {/* Completed Payments Section */}
       {completedPayments.length > 0 && (
-        <div className="payments-section completed-section">
-          <h2 className="section-title">Completed Payments (This Session)</h2>
-          <div className="payments-grid">
+        <div className="payments-section">
+          <div className="section-header">
+            <h2 className="section-title">Completed This Session</h2>
+            <div className="section-badge success">{completedPayments.length} Completed</div>
+          </div>
+          
+          <div className="payments-list">
             {completedPayments.map((payment) => (
-              <div key={payment._id} className="payment-card completed-card">
-                <div className="payment-header">
-                  <div className="payment-user">
-                    <div className="user-avatar completed-avatar">
-                      {payment.user?.fullName?.charAt(0) || "U"}
+              <div key={payment._id} className="payment-item completed">
+                <div className="payment-left">
+                  <div className="payment-header-row">
+                    <div className="payment-id">
+                      <span className="id-label">Payment ID:</span>
+                      <span className="id-value">{payment._id.slice(-8).toUpperCase()}</span>
                     </div>
-                    <div>
-                      <div className="user-name">{payment.user?.fullName || "N/A"}</div>
-                      <div className="user-date">Completed: {new Date(payment.completedAt).toLocaleTimeString()}</div>
+                    <div className="status-pill completed">
+                      <CheckCircle size={14} />
+                      <span>Completed</span>
                     </div>
-                  </div>
-                  <div className="status-badge completed">
-                    <CheckCircle size={14} />
-                    <span>COMPLETED</span>
-                  </div>
-                </div>
-
-                <div className="payment-body">
-                  <div className="payment-amount completed-amount">
-                    <span className="currency">{payment.currency}</span>
-                    <span className="amount">{payment.amount.toLocaleString()}</span>
                   </div>
 
-                  <div className="payment-details">
-                    <div className="detail-row">
-                      <span className="detail-label">Recipient</span>
-                      <span className="detail-value">{payment.recipientAccount}</span>
+                  <div className="payment-amount-display">
+                    <span className="currency-sign">{payment.currency}</span>
+                    <span className="amount-large">{payment.amount.toLocaleString()}</span>
+                  </div>
+
+                  <div className="payment-info-grid">
+                    <div className="info-item">
+                      <span className="info-label">Customer</span>
+                      <span className="info-value">{payment.user?.fullName || "N/A"}</span>
                     </div>
-                    <div className="detail-row">
-                      <span className="detail-label">SWIFT Code</span>
-                      <span className="detail-value swift-code">{payment.swiftCode}</span>
+                    <div className="info-item">
+                      <span className="info-label">Recipient Account</span>
+                      <span className="info-value">{payment.recipientAccount}</span>
                     </div>
-                    <div className="detail-row">
-                      <span className="detail-label">Provider</span>
-                      <span className="detail-value">{payment.provider}</span>
+                    <div className="info-item">
+                      <span className="info-label">SWIFT Code</span>
+                      <span className="info-value swift">{payment.swiftCode}</span>
+                    </div>
+                    <div className="info-item">
+                      <span className="info-label">Completed At</span>
+                      <span className="info-value">
+                        {new Date(payment.completedAt).toLocaleTimeString()}
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -336,27 +333,8 @@ export default function EmployeeDashboardPage() {
 
         .dashboard-container {
           min-height: 100vh;
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          background: linear-gradient(to bottom, #ecfdf5 0%, #d1fae5 100%);
           padding: 2rem;
-          position: relative;
-          overflow: hidden;
-        }
-
-        .bg-decoration {
-          position: fixed;
-          top: -50%;
-          right: -50%;
-          width: 100%;
-          height: 100%;
-          background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
-          background-size: 50px 50px;
-          animation: float 20s linear infinite;
-          pointer-events: none;
-        }
-
-        @keyframes float {
-          0% { transform: translate(0, 0); }
-          100% { transform: translate(50px, 50px); }
         }
 
         .loading-container {
@@ -365,15 +343,15 @@ export default function EmployeeDashboardPage() {
           align-items: center;
           justify-content: center;
           min-height: 100vh;
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          background: linear-gradient(to bottom, #ecfdf5 0%, #d1fae5 100%);
           gap: 1.5rem;
         }
 
         .loading-spinner {
           width: 60px;
           height: 60px;
-          border: 6px solid rgba(255,255,255,0.3);
-          border-top: 6px solid white;
+          border: 5px solid #d1fae5;
+          border-top: 5px solid #059669;
           border-radius: 50%;
           animation: spin 0.8s linear infinite;
         }
@@ -383,19 +361,18 @@ export default function EmployeeDashboardPage() {
         }
 
         .loading-text {
-          font-size: 1.25rem;
-          color: white;
+          font-size: 1.1rem;
+          color: #064e3b;
           font-weight: 600;
         }
 
         .dashboard-header {
           background: white;
-          border-radius: 20px;
+          border-radius: 16px;
           padding: 2rem;
           margin-bottom: 2rem;
-          box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-          position: relative;
-          z-index: 1;
+          box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+          border: 1px solid #e5e7eb;
         }
 
         .header-content {
@@ -409,32 +386,31 @@ export default function EmployeeDashboardPage() {
         .header-left {
           display: flex;
           align-items: center;
-          gap: 1.5rem;
+          gap: 1.25rem;
         }
 
-        .header-icon {
-          font-size: 3rem;
-          animation: bounce 2s infinite;
-        }
-
-        @keyframes bounce {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-10px); }
+        .header-icon-box {
+          width: 64px;
+          height: 64px;
+          background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+          border-radius: 12px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: white;
         }
 
         .header-title {
-          font-size: 2rem;
+          font-size: 1.75rem;
           font-weight: 800;
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
+          color: #064e3b;
           margin-bottom: 0.25rem;
         }
 
         .header-subtitle {
           color: #6b7280;
-          font-size: 1rem;
+          font-size: 0.95rem;
+          font-weight: 500;
         }
 
         .header-right {
@@ -449,31 +425,30 @@ export default function EmployeeDashboardPage() {
           gap: 0.5rem;
           padding: 0.75rem 1.25rem;
           background: #f3f4f6;
-          border-radius: 12px;
-          color: #4b5563;
+          border-radius: 10px;
+          color: #374151;
           font-weight: 600;
-          font-size: 0.95rem;
+          font-size: 0.9rem;
         }
 
         .logout-btn {
           display: flex;
           align-items: center;
           gap: 0.5rem;
-          padding: 0.75rem 1.5rem;
-          background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+          padding: 0.75rem 1.25rem;
+          background: #ef4444;
           color: white;
           border: none;
-          border-radius: 12px;
+          border-radius: 10px;
           font-weight: 600;
-          font-size: 0.95rem;
+          font-size: 0.9rem;
           cursor: pointer;
-          transition: all 0.3s ease;
-          box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+          transition: all 0.2s ease;
         }
 
         .logout-btn:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
+          background: #dc2626;
+          transform: translateY(-1px);
         }
 
         .message-toast {
@@ -486,7 +461,7 @@ export default function EmployeeDashboardPage() {
           padding: 1rem 1.5rem;
           border-radius: 12px;
           font-weight: 600;
-          box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+          box-shadow: 0 10px 25px rgba(0,0,0,0.15);
           animation: slideIn 0.3s ease-out;
           z-index: 1000;
         }
@@ -516,375 +491,330 @@ export default function EmployeeDashboardPage() {
 
         .stats-grid {
           display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+          grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
           gap: 1.5rem;
           margin-bottom: 2rem;
-          position: relative;
-          z-index: 1;
         }
 
         .stat-card {
           background: white;
-          border-radius: 16px;
+          border-radius: 12px;
           padding: 1.5rem;
           display: flex;
           align-items: center;
-          gap: 1.5rem;
-          box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-          transition: all 0.3s ease;
-          position: relative;
-          overflow: hidden;
-        }
-
-        .stat-card::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 4px;
-          transition: height 0.3s ease;
+          gap: 1.25rem;
+          border: 1px solid #e5e7eb;
+          box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+          transition: all 0.2s ease;
         }
 
         .stat-card:hover {
-          transform: translateY(-8px);
-          box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
 
-        .stat-card:hover::before {
-          height: 100%;
-          opacity: 0.05;
-        }
-
-        .total-card::before { background: #8b5cf6; }
-        .pending-card::before { background: #f59e0b; }
-        .verified-card::before { background: #3b82f6; }
-
-        .stat-icon-wrapper {
-          width: 60px;
-          height: 60px;
-          border-radius: 14px;
+        .stat-icon {
+          width: 56px;
+          height: 56px;
+          border-radius: 10px;
           display: flex;
           align-items: center;
           justify-content: center;
           color: white;
         }
 
-        .total-icon { background: linear-gradient(135deg, #a78bfa 0%, #8b5cf6 100%); }
-        .pending-icon { background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%); }
-        .verified-icon { background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%); }
+        .stat-icon.total {
+          background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+        }
 
-        .stat-content {
+        .stat-icon.pending {
+          background: linear-gradient(135deg, #f59e0b 0%, #f97316 100%);
+        }
+
+        .stat-icon.verified {
+          background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+        }
+
+        .stat-info {
           flex: 1;
         }
 
-        .stat-number {
-          font-size: 2.5rem;
+        .stat-value {
+          font-size: 2rem;
           font-weight: 800;
-          color: #1f2937;
+          color: #064e3b;
           line-height: 1;
           margin-bottom: 0.25rem;
         }
 
         .stat-label {
-          font-size: 0.9rem;
+          font-size: 0.85rem;
           color: #6b7280;
           font-weight: 600;
         }
 
-        .stat-badge {
-          padding: 0.5rem 1rem;
-          border-radius: 8px;
-          font-size: 0.75rem;
-          font-weight: 700;
-          text-transform: uppercase;
-          letter-spacing: 0.05em;
-        }
-
-        .pending-badge {
-          background: #fef3c7;
-          color: #92400e;
-        }
-
-        .verified-badge {
-          background: #dbeafe;
-          color: #1e40af;
-        }
-
-        .instruction-card {
-          background: white;
-          border-radius: 16px;
-          padding: 1.5rem;
+        .instruction-banner {
+          background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+          border: 1px solid #93c5fd;
+          border-radius: 12px;
+          padding: 1.25rem;
           margin-bottom: 2rem;
-          box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-          position: relative;
-          z-index: 1;
-          border-left: 4px solid #3b82f6;
-        }
-
-        .instruction-header {
           display: flex;
-          align-items: center;
-          gap: 0.75rem;
-          margin-bottom: 1rem;
-          color: #1f2937;
+          gap: 1rem;
         }
 
-        .instruction-header h3 {
-          font-size: 1.25rem;
+        .instruction-icon {
+          color: #1e40af;
+          flex-shrink: 0;
+        }
+
+        .instruction-content h3 {
+          font-size: 1rem;
           font-weight: 700;
-          margin: 0;
+          color: #1e3a8a;
+          margin-bottom: 0.25rem;
         }
 
-        .instruction-list {
-          margin: 0;
-          padding-left: 2rem;
-          color: #4b5563;
-          font-size: 0.95rem;
-          line-height: 1.8;
-        }
-
-        .instruction-list li {
-          margin-bottom: 0.5rem;
+        .instruction-content p {
+          font-size: 0.9rem;
+          color: #1e40af;
+          line-height: 1.5;
         }
 
         .payments-section {
-          position: relative;
-          z-index: 1;
-          margin-bottom: 3rem;
+          margin-bottom: 2rem;
         }
 
-        .completed-section {
-          margin-top: 3rem;
+        .section-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 1.25rem;
         }
 
         .section-title {
-          font-size: 1.75rem;
+          font-size: 1.5rem;
+          font-weight: 800;
+          color: #064e3b;
+        }
+
+        .section-badge {
+          padding: 0.5rem 1rem;
+          background: #d1fae5;
+          color: #065f46;
+          border-radius: 8px;
+          font-size: 0.85rem;
           font-weight: 700;
-          color: white;
-          margin-bottom: 1.5rem;
-          text-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
 
-        .payments-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-          gap: 1.5rem;
+        .section-badge.success {
+          background: #a7f3d0;
+          color: #064e3b;
         }
 
-        .payment-card {
+        .payments-list {
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+        }
+
+        .payment-item {
           background: white;
-          border-radius: 16px;
-          overflow: hidden;
-          box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-          transition: all 0.3s ease;
-        }
-
-        .payment-card:hover {
-          transform: translateY(-8px);
-          box-shadow: 0 12px 40px rgba(0,0,0,0.15);
-        }
-
-        .completed-card {
-          opacity: 0.9;
-        }
-
-        .payment-header {
+          border: 2px solid #e5e7eb;
+          border-radius: 12px;
           padding: 1.5rem;
           display: flex;
           justify-content: space-between;
           align-items: flex-start;
-          gap: 1rem;
-          border-bottom: 2px solid #f3f4f6;
+          gap: 1.5rem;
+          transition: all 0.2s ease;
         }
 
-        .payment-user {
+        .payment-item:hover {
+          border-color: #059669;
+          box-shadow: 0 4px 12px rgba(5, 150, 105, 0.1);
+        }
+
+        .payment-item.completed {
+          background: #f0fdf4;
+          border-color: #86efac;
+        }
+
+        .payment-left {
+          flex: 1;
+        }
+
+        .payment-header-row {
           display: flex;
+          justify-content: space-between;
           align-items: center;
-          gap: 1rem;
+          margin-bottom: 1rem;
+          flex-wrap: wrap;
+          gap: 0.75rem;
         }
 
-        .user-avatar {
-          width: 48px;
-          height: 48px;
-          border-radius: 12px;
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: white;
-          font-weight: 700;
-          font-size: 1.25rem;
-        }
-
-        .completed-avatar {
-          background: linear-gradient(135deg, #34d399 0%, #10b981 100%);
-        }
-
-        .user-name {
-          font-weight: 700;
-          font-size: 1.1rem;
-          color: #1f2937;
-        }
-
-        .user-date {
-          font-size: 0.85rem;
-          color: #9ca3af;
-          margin-top: 0.25rem;
-        }
-
-        .status-badge {
+        .payment-id {
           display: flex;
           align-items: center;
           gap: 0.5rem;
-          padding: 0.5rem 1rem;
-          border-radius: 8px;
+        }
+
+        .id-label {
+          font-size: 0.8rem;
+          color: #9ca3af;
+          font-weight: 600;
+        }
+
+        .id-value {
+          font-size: 0.85rem;
+          color: #374151;
+          font-weight: 700;
+          font-family: monospace;
+          background: #f3f4f6;
+          padding: 0.25rem 0.5rem;
+          border-radius: 4px;
+        }
+
+        .status-pill {
+          display: flex;
+          align-items: center;
+          gap: 0.4rem;
+          padding: 0.4rem 0.9rem;
+          border-radius: 20px;
           font-size: 0.75rem;
           font-weight: 700;
           text-transform: uppercase;
-          letter-spacing: 0.05em;
+          letter-spacing: 0.03em;
         }
 
-        .status-badge.pending {
+        .status-pill.pending {
           background: #fef3c7;
           color: #92400e;
         }
 
-        .status-badge.verified {
+        .status-pill.verified {
           background: #dbeafe;
           color: #1e40af;
         }
 
-        .status-badge.completed {
+        .status-pill.completed {
           background: #d1fae5;
           color: #065f46;
         }
 
-        .payment-body {
-          padding: 1.5rem;
-        }
-
-        .payment-amount {
+        .payment-amount-display {
           display: flex;
           align-items: baseline;
           gap: 0.5rem;
-          margin-bottom: 1.5rem;
-          padding: 1rem;
-          background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
-          border-radius: 12px;
+          margin-bottom: 1.25rem;
         }
 
-        .completed-amount {
-          background: linear-gradient(135deg, #e0f2fe 0%, #dbeafe 100%);
-        }
-
-        .currency {
-          font-size: 1rem;
-          font-weight: 600;
+        .currency-sign {
+          font-size: 1.1rem;
+          font-weight: 700;
           color: #059669;
         }
 
-        .amount {
-          font-size: 2rem;
-          font-weight: 800;
-          color: #065f46;
+        .amount-large {
+          font-size: 2.25rem;
+          font-weight: 900;
+          color: #064e3b;
         }
 
-        .payment-details {
-          display: flex;
-          flex-direction: column;
+        .payment-info-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
           gap: 0.75rem;
         }
 
-        .detail-row {
+        .info-item {
           display: flex;
-          justify-content: space-between;
-          align-items: center;
-          padding: 0.75rem;
-          background: #f9fafb;
-          border-radius: 8px;
+          flex-direction: column;
+          gap: 0.25rem;
         }
 
-        .detail-label {
-          font-size: 0.85rem;
+        .info-label {
+          font-size: 0.75rem;
           color: #6b7280;
           font-weight: 600;
+          text-transform: uppercase;
+          letter-spacing: 0.03em;
         }
 
-        .detail-value {
+        .info-value {
           font-size: 0.9rem;
           color: #1f2937;
           font-weight: 600;
-          text-align: right;
         }
 
-        .swift-code {
+        .info-value.swift {
           font-family: monospace;
-          background: #eef2ff;
-          padding: 0.25rem 0.75rem;
-          border-radius: 6px;
-          color: #4338ca;
+          background: #eff6ff;
+          color: #1e40af;
+          padding: 0.25rem 0.5rem;
+          border-radius: 4px;
+          display: inline-block;
         }
 
-        .payment-footer {
-          padding: 1.5rem;
-          border-top: 2px solid #f3f4f6;
+        .payment-actions {
+          display: flex;
+          flex-direction: column;
+          gap: 0.75rem;
+          min-width: 160px;
         }
 
-        .action-btn {
-          width: 100%;
+        .action-button {
           display: flex;
           align-items: center;
           justify-content: center;
-          gap: 0.75rem;
-          padding: 1rem;
+          gap: 0.5rem;
+          padding: 0.875rem 1.25rem;
           border: none;
-          border-radius: 12px;
-          font-size: 1rem;
+          border-radius: 10px;
+          font-size: 0.95rem;
           font-weight: 700;
           color: white;
           cursor: pointer;
-          transition: all 0.3s ease;
+          transition: all 0.2s ease;
+          white-space: nowrap;
         }
 
-        .verify-btn {
-          background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
-          box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        .action-button.verify {
+          background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
         }
 
-        .verify-btn:hover {
+        .action-button.verify:hover {
           transform: translateY(-2px);
-          box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+          box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
         }
 
-        .complete-btn {
-          background: linear-gradient(135deg, #34d399 0%, #10b981 100%);
-          box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        .action-button.submit {
+          background: linear-gradient(135deg, #059669 0%, #10b981 100%);
         }
 
-        .complete-btn:hover {
+        .action-button.submit:hover {
           transform: translateY(-2px);
-          box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+          box-shadow: 0 4px 12px rgba(5, 150, 105, 0.4);
         }
 
         .empty-state {
           text-align: center;
           padding: 4rem 2rem;
           background: white;
-          border-radius: 16px;
-          box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+          border-radius: 12px;
+          border: 2px dashed #d1fae5;
         }
 
         .empty-icon {
-          font-size: 5rem;
+          font-size: 4rem;
           margin-bottom: 1rem;
-          animation: bounce 2s infinite;
+          color: #059669;
         }
 
         .empty-title {
           font-size: 1.5rem;
-          font-weight: 700;
-          color: #1f2937;
+          font-weight: 800;
+          color: #064e3b;
           margin-bottom: 0.5rem;
         }
 
@@ -916,17 +846,16 @@ export default function EmployeeDashboardPage() {
             grid-template-columns: 1fr;
           }
 
-          .payments-grid {
-            grid-template-columns: 1fr;
+          .payment-item {
+            flex-direction: column;
           }
 
-          .stat-card {
-            flex-wrap: wrap;
-          }
-
-          .stat-badge {
+          .payment-actions {
             width: 100%;
-            text-align: center;
+          }
+
+          .payment-info-grid {
+            grid-template-columns: 1fr;
           }
         }
       `}</style>
