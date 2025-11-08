@@ -1,27 +1,70 @@
 import React, { useEffect, useState } from "react";
-import { Link, useOutletContext } from "react-router-dom";
-import { getUserPayments } from "../services/api";
-import SetupMFA from "../components/SetupMFA";
+
+// Mock API and components for demonstration
+const getUserPayments = async () => {
+  return {
+    data: {
+      payments: [
+        {
+          _id: "pay_1",
+          amount: "1250.00",
+          currency: "USD",
+          status: "completed",
+          provider: "SWIFT Network",
+          createdAt: "2025-11-05T14:30:00Z"
+        },
+        {
+          _id: "pay_2",
+          amount: "3750.50",
+          currency: "EUR",
+          status: "pending",
+          provider: "International Bank",
+          createdAt: "2025-11-07T09:15:00Z"
+        }
+      ]
+    }
+  };
+};
+
+const SetupMFA = ({ user }) => (
+  <div>
+    <p style={{ color: '#6b7280', fontSize: '0.9rem', marginBottom: '1rem', lineHeight: '1.5' }}>
+      Add an extra layer of security to your account with two-factor authentication.
+    </p>
+    <button style={{
+      padding: '0.75rem 1.5rem',
+      backgroundColor: '#059669',
+      color: 'white',
+      border: 'none',
+      borderRadius: '10px',
+      fontSize: '0.9rem',
+      fontWeight: '600',
+      cursor: 'pointer',
+      width: '100%'
+    }}>
+      Enable 2FA
+    </button>
+  </div>
+);
 
 function DashboardPage() {
-  const { user } = useOutletContext();
+  const user = {
+    fullName: "John Doe",
+    accountNumber: "ACC123456"
+  };
+  
   const [payments, setPayments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  // Fetch payments
   useEffect(() => {
     const fetchPayments = async () => {
       try {
         const res = await getUserPayments();
-        console.log("API Response:", res.data);
-        
         const paymentsData = res.data?.payments || res.data || [];
-        console.log("Payments array:", paymentsData);
-        
         setPayments(Array.isArray(paymentsData) ? paymentsData : []);
       } catch (err) {
-        console.error("Error fetching payments:", err.response?.data || err);
+        console.error("Error fetching payments:", err);
         setError("Failed to load payments.");
       } finally {
         setLoading(false);
@@ -31,36 +74,27 @@ function DashboardPage() {
     fetchPayments();
   }, []);
 
-  // Calculate stats
   const totalPayments = payments.length;
-  
   const completedPayments = payments.filter(p => 
     p.status?.toLowerCase() === 'completed' || 
     p.status?.toLowerCase() === 'approved'
   ).length;
-  
   const pendingPayments = payments.filter(p => 
     p.status?.toLowerCase() === 'pending'
   ).length;
-  
   const recentPayments = payments.slice(0, 5);
-
-  console.log("Stats:", { totalPayments, completedPayments, pendingPayments });
 
   return (
     <div style={{ 
       backgroundColor: '#f9fafb',
       minHeight: '100vh',
-      paddingBottom: '3rem',
-      marginTop: '-2rem',
-      marginLeft: '-1.5rem',
-      marginRight: '-1.5rem'
+      paddingBottom: '3rem'
     }}>
       {/* Hero Header */}
       <section style={{
         background: 'linear-gradient(to bottom right, #ecfdf5 0%, #d1fae5 50%, #a7f3d0 100%)',
-        padding: '3.5rem 2rem 2.5rem 2rem',
-        position: 'relative'
+        padding: '3rem 2rem',
+        marginBottom: '3rem'
       }}>
         <div style={{ 
           maxWidth: '1100px', 
@@ -134,143 +168,6 @@ function DashboardPage() {
         margin: '0 auto',
         padding: '0 2rem'
       }}>
-        {/* Stats Overview - Moved to top */}
-        <div style={{ 
-          marginTop: '-2rem',
-          marginBottom: '3rem',
-          position: 'relative',
-          zIndex: 10
-        }}>
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
-            gap: '1.5rem'
-          }}>
-            {/* Total Payments */}
-            <div style={{
-              backgroundColor: 'white',
-              borderRadius: '16px',
-              padding: '2rem',
-              boxShadow: '0 4px 15px rgba(0,0,0,0.08)',
-              border: '1px solid #e5e7eb'
-            }}>
-              <div style={{
-                width: '48px',
-                height: '48px',
-                background: 'linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%)',
-                borderRadius: '12px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontSize: '1.5rem',
-                marginBottom: '1rem'
-              }}>
-                💰
-              </div>
-              <p style={{ 
-                color: '#6b7280', 
-                fontSize: '0.85rem', 
-                marginBottom: '0.5rem',
-                fontWeight: '500',
-                textTransform: 'uppercase',
-                letterSpacing: '0.5px'
-              }}>
-                Total Payments
-              </p>
-              <h3 style={{ 
-                color: '#059669', 
-                fontSize: '2.25rem', 
-                margin: 0,
-                fontWeight: '900'
-              }}>
-                {loading ? '...' : totalPayments}
-              </h3>
-            </div>
-
-            {/* Completed */}
-            <div style={{
-              backgroundColor: 'white',
-              borderRadius: '16px',
-              padding: '2rem',
-              boxShadow: '0 4px 15px rgba(0,0,0,0.08)',
-              border: '1px solid #e5e7eb'
-            }}>
-              <div style={{
-                width: '48px',
-                height: '48px',
-                background: 'linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%)',
-                borderRadius: '12px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontSize: '1.5rem',
-                marginBottom: '1rem'
-              }}>
-                ✓
-              </div>
-              <p style={{ 
-                color: '#6b7280', 
-                fontSize: '0.85rem', 
-                marginBottom: '0.5rem',
-                fontWeight: '500',
-                textTransform: 'uppercase',
-                letterSpacing: '0.5px'
-              }}>
-                Completed
-              </p>
-              <h3 style={{ 
-                color: '#059669', 
-                fontSize: '2.25rem', 
-                margin: 0,
-                fontWeight: '900'
-              }}>
-                {loading ? '...' : completedPayments}
-              </h3>
-            </div>
-
-            {/* Pending */}
-            <div style={{
-              backgroundColor: 'white',
-              borderRadius: '16px',
-              padding: '2rem',
-              boxShadow: '0 4px 15px rgba(0,0,0,0.08)',
-              border: '1px solid #e5e7eb'
-            }}>
-              <div style={{
-                width: '48px',
-                height: '48px',
-                background: 'linear-gradient(135deg, #fef3c7 0%, #fde68a 100%)',
-                borderRadius: '12px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontSize: '1.5rem',
-                marginBottom: '1rem'
-              }}>
-                ⏳
-              </div>
-              <p style={{ 
-                color: '#6b7280', 
-                fontSize: '0.85rem', 
-                marginBottom: '0.5rem',
-                fontWeight: '500',
-                textTransform: 'uppercase',
-                letterSpacing: '0.5px'
-              }}>
-                Pending
-              </p>
-              <h3 style={{ 
-                color: '#f59e0b', 
-                fontSize: '2.25rem', 
-                margin: 0,
-                fontWeight: '900'
-              }}>
-                {loading ? '...' : pendingPayments}
-              </h3>
-            </div>
-          </div>
-        </div>
-
         {/* Main Content Grid */}
         <div style={{
           display: 'grid',
@@ -302,8 +199,8 @@ function DashboardPage() {
                   Recent Transactions
                 </h3>
                 
-                <Link 
-                  to="/payments"
+                <a 
+                  href="/payments"
                   style={{
                     color: '#059669',
                     textDecoration: 'none',
@@ -316,7 +213,7 @@ function DashboardPage() {
                 >
                   <span>View All</span>
                   <span>→</span>
-                </Link>
+                </a>
               </div>
 
               {loading ? (
@@ -349,8 +246,8 @@ function DashboardPage() {
                   <p style={{ color: '#6b7280', marginBottom: '1.5rem', fontSize: '0.95rem' }}>
                     Start processing payments today!
                   </p>
-                  <Link
-                    to="/make-payment"
+                  <a
+                    href="/make-payment"
                     style={{
                       background: 'linear-gradient(135deg, #059669 0%, #10b981 100%)',
                       color: 'white',
@@ -364,7 +261,7 @@ function DashboardPage() {
                     }}
                   >
                     Make Your First Payment →
-                  </Link>
+                  </a>
                 </div>
               ) : (
                 <div style={{ overflowX: 'auto' }}>
@@ -479,8 +376,8 @@ function DashboardPage() {
               </h3>
               
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                <Link
-                  to="/make-payment"
+                <a
+                  href="/make-payment"
                   style={{
                     backgroundColor: '#ffffff',
                     borderRadius: '12px',
@@ -535,10 +432,10 @@ function DashboardPage() {
                     </div>
                     <span style={{ color: '#059669', fontSize: '1.25rem' }}>→</span>
                   </div>
-                </Link>
+                </a>
 
-                <Link
-                  to="/payments"
+                <a
+                  href="/payments"
                   style={{
                     backgroundColor: '#ffffff',
                     borderRadius: '12px',
@@ -593,7 +490,7 @@ function DashboardPage() {
                     </div>
                     <span style={{ color: '#059669', fontSize: '1.25rem' }}>→</span>
                   </div>
-                </Link>
+                </a>
               </div>
             </div>
 
@@ -627,6 +524,149 @@ function DashboardPage() {
                 Setup 2FA
               </h3>
               <SetupMFA user={user} />
+            </div>
+          </div>
+        </div>
+
+        {/* Stats Overview - Moved to bottom */}
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+          gap: '1.5rem',
+          marginTop: '2rem'
+        }}>
+          {/* Total Payments */}
+          <div style={{
+            backgroundColor: 'white',
+            borderRadius: '12px',
+            padding: '1.5rem',
+            border: '1px solid #e5e7eb',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '1rem'
+          }}>
+            <div style={{
+              width: '48px',
+              height: '48px',
+              background: 'linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%)',
+              borderRadius: '10px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: '1.5rem',
+              flexShrink: 0
+            }}>
+              💰
+            </div>
+            <div>
+              <p style={{ 
+                color: '#6b7280', 
+                fontSize: '0.8rem', 
+                margin: 0,
+                fontWeight: '600',
+                textTransform: 'uppercase',
+                letterSpacing: '0.5px'
+              }}>
+                Total
+              </p>
+              <h3 style={{ 
+                color: '#059669', 
+                fontSize: '1.75rem', 
+                margin: '0.25rem 0 0 0',
+                fontWeight: '900'
+              }}>
+                {loading ? '...' : totalPayments}
+              </h3>
+            </div>
+          </div>
+
+          {/* Completed */}
+          <div style={{
+            backgroundColor: 'white',
+            borderRadius: '12px',
+            padding: '1.5rem',
+            border: '1px solid #e5e7eb',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '1rem'
+          }}>
+            <div style={{
+              width: '48px',
+              height: '48px',
+              background: 'linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%)',
+              borderRadius: '10px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: '1.5rem',
+              flexShrink: 0
+            }}>
+              ✓
+            </div>
+            <div>
+              <p style={{ 
+                color: '#6b7280', 
+                fontSize: '0.8rem', 
+                margin: 0,
+                fontWeight: '600',
+                textTransform: 'uppercase',
+                letterSpacing: '0.5px'
+              }}>
+                Completed
+              </p>
+              <h3 style={{ 
+                color: '#059669', 
+                fontSize: '1.75rem', 
+                margin: '0.25rem 0 0 0',
+                fontWeight: '900'
+              }}>
+                {loading ? '...' : completedPayments}
+              </h3>
+            </div>
+          </div>
+
+          {/* Pending */}
+          <div style={{
+            backgroundColor: 'white',
+            borderRadius: '12px',
+            padding: '1.5rem',
+            border: '1px solid #e5e7eb',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '1rem'
+          }}>
+            <div style={{
+              width: '48px',
+              height: '48px',
+              background: 'linear-gradient(135deg, #fef3c7 0%, #fde68a 100%)',
+              borderRadius: '10px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: '1.5rem',
+              flexShrink: 0
+            }}>
+              ⏳
+            </div>
+            <div>
+              <p style={{ 
+                color: '#6b7280', 
+                fontSize: '0.8rem', 
+                margin: 0,
+                fontWeight: '600',
+                textTransform: 'uppercase',
+                letterSpacing: '0.5px'
+              }}>
+                Pending
+              </p>
+              <h3 style={{ 
+                color: '#f59e0b', 
+                fontSize: '1.75rem', 
+                margin: '0.25rem 0 0 0',
+                fontWeight: '900'
+              }}>
+                {loading ? '...' : pendingPayments}
+              </h3>
             </div>
           </div>
         </div>
