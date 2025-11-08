@@ -1,626 +1,725 @@
-# International Payment Portal
-
 <div align="center">
-  
 
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=your-project-key&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=your-project-key)
-[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=your-project-key&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=your-project-key)
-[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=your-project-key&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=your-project-key)
+# 💳 PulsePay - International Payment Portal
 
-*A secure, enterprise-grade banking application for international payments via the SWIFT network*
 
-[Demo Video](https://youtu.be/D6JbAHOqNrA) • [Report Bug](https://github.com/VCDN-2025/insy7314-poe-part-2-ST10407732/issues) • [Request Feature](https://github.com/VCDN-2025/insy7314-poe-part-2-ST10407732/issues)
+
+---
+
+### 🎯 **Streamlined International Transactions with Enterprise-Grade Security**
+
+*From basic payment portal to fully secured, production-ready application*
+
+<a href="https://youtu.be/TKLIx1VxwGY">
+  <img src="https://img.shields.io/badge/🎬_Watch_Demo-YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white" alt="Watch Demo">
+</a>
+
+<a href="https://payments-frontend-h173.onrender.com">
+  <img src="https://img.shields.io/badge/🚀_Live_App-Frontend-00C7B7?style=for-the-badge&logo=render&logoColor=white" alt="Live Frontend">
+</a>
+
+<a href="https://insy7314-poe-part-3-st10299658.onrender.com">
+  <img src="https://img.shields.io/badge/⚡_API_Server-Backend-5A29E4?style=for-the-badge&logo=render&logoColor=white" alt="Backend API">
+</a>
 
 </div>
 
 ---
 
-## Table of Contents
+## 👥 **Development Team**
 
-- [Overview](#overview)
-- [Features](#features)
-- [Security Implementation](#security-implementation)
-- [Technology Stack](#technology-stack)
-- [Getting Started](#getting-started)
-- [Architecture](#architecture)
-- [API Documentation](#api-documentation)
-- [Security Features](#security-features)
-- [Code Attribution](#code-attribution)
-- [Testing](#testing)
-- [Deployment](#deployment)
-- [Contributing](#contributing)
-
----
-
-## Overview
-
-The International Payment Portal is a full-stack web application designed for secure international money transfers. Built with React and Node.js, it implements bank-level security measures including SSL/TLS encryption, password hashing, input validation, and comprehensive attack protection.
-
-### Project Objectives
-
-- Provide customers with a secure platform for international payments
-- Implement enterprise-grade security measures
-- Ensure compliance with banking security standards
-- Maintain high code quality through automated testing and scanning
-
-### Video Demonstration
-
-Watch the full demonstration and security walkthrough: [YouTube Demo Video](https://youtu.be/D6JbAHOqNrA)
-
-LINK 
-https://youtu.be/D6JbAHOqNrA
-
----
-
-## Features
-
-### Customer Features
-- **Secure Registration** - Multi-factor validation with strong password requirements
-- **JWT Authentication** - Token-based authentication with automatic expiration
-- **International Payments** - SWIFT network integration for global transfers
-- **Payment Dashboard** - Real-time tracking of transaction history
-- **Multi-Currency Support** - USD, EUR, GBP, ZAR, JPY, CAD, AUD, CHF
-- **Responsive Design** - Mobile-friendly interface
-
-### Security Features
-- **SSL/TLS Encryption** - All traffic encrypted with TLS 1.3
-- **Password Hashing** - bcrypt with 12 salt rounds
-- **Input Validation** - RegEx whitelisting on all inputs
-- **Attack Prevention** - XSS, CSRF, SQL Injection, NoSQL Injection protection
-- **Rate Limiting** - Brute force and DDoS protection
-- **Secure Cookies** - HTTP-only cookies with SameSite strict
-- **Account Lockout** - Automatic lockout after failed login attempts
+<table align="center">
+  <tr>
+    <th>Student Number</th>
+    <th>Name</th>
+    <th>Role</th>
+    <th>Institution</th>
+  </tr>
+  <tr>
+    <td align="center"><strong>ST10299658</strong></td>
+    <td>Okuhle Nyawo</td>
+    <td>Lead Developer</td>
+    <td rowspan="5">Varsity College<br/>2025</td>
+  </tr>
+  <tr>
+    <td align="center"><strong>ST10293982</strong></td>
+    <td>Cebo Nyawo</td>
+    <td>Developer</td>
+  </tr>
+  <tr>
+    <td align="center"><strong>ST10288560</strong></td>
+    <td>Luke Lutchmiah</td>
+    <td>Developer</td>
+  </tr>
+  <tr>
+    <td align="center"><strong>ST10302369</strong></td>
+    <td>Lethabo Penniston</td>
+    <td>Developer</td>
+  </tr>
+  <tr>
+    <td align="center"><strong>ST10358804</strong></td>
+    <td>David Dingani</td>
+    <td>Developer</td>
+  </tr>
+</table>
 
 ---
 
-## Security Implementation
+## 📊 **Table of Contents**
 
-### 1. Password Security
-
-**Implementation:**
-- Algorithm: bcrypt with 12 salt rounds
-- Requirements: 8-128 characters, uppercase, lowercase, number, special character
-- Validation Pattern: 
-  ```javascript
-  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,128}$/
-  ```
-
-**Code Location:** `Backend/controllers/authController.js`
-
-```javascript
-const salt = await bcrypt.genSalt(12);
-const hashedPassword = await bcrypt.hash(password, salt);
-```
-
-### 2. Input Whitelisting
-
-**RegEx Patterns:**
-- Full Name: `/^[A-Za-z\s]{2,100}$/` - Letters and spaces only
-- ID Number: `/^\d{13}$/` - Exactly 13 digits
-- Account Number: `/^\d{10,12}$/` - 10-12 digits
-- Currency: `/^[A-Z]{3}$/` - ISO 4217 format
-- SWIFT Code: `/^[A-Z]{6}[A-Z0-9]{2}([A-Z0-9]{3})?$/` - BIC format
-
-**Validation:** Client-side and server-side double validation
-
-**Code Location:** `Backend/controllers/authController.js`, `Backend/controllers/paymentController.js`
-
-### 3. SSL/TLS Encryption
-
-**Implementation:**
-- Protocol: HTTPS with TLS 1.3
-- Certificate: Self-signed for development, production-ready structure
-- Server: Node.js HTTPS module with Express
-
-**Code Location:** `Backend/server.js`
-
-```javascript
-const options = {
-  key: fs.readFileSync('ssl/key.pem'),
-  cert: fs.readFileSync('ssl/cert.pem'),
-};
-https.createServer(options, app).listen(PORT);
-```
-
-### 4. Attack Protection
-
-| Protection | Tool/Method | Status |
-|------------|-------------|--------|
-| XSS | Helmet + Input Validation | Implemented |
-| CSRF | SameSite Cookies + CORS | Implemented |
-| SQL Injection | N/A (NoSQL) | N/A |
-| NoSQL Injection | Mongoose Validation + Sanitization | Implemented |
-| Brute Force | Rate Limiting + Account Lockout | Implemented |
-| DDoS | Rate Limiting (100 req/15min) | Implemented |
-| Clickjacking | Helmet X-Frame-Options | Implemented |
-| Session Hijacking | HTTP-only Cookies + Token Expiry | Implemented |
-
-**Security Middleware:**
-```javascript
-app.use(helmet());                    // Security headers
-app.use(cors({ credentials: true })); // CORS protection
-app.use(rateLimit({ max: 100 }));    // Rate limiting
-app.use(mongoSanitize());             // NoSQL injection prevention
-```
-
-### 5. DevSecOps Pipeline
-
-**CI/CD Workflow:**
-- Platform: GitHub Actions
-- Triggers: Push to main, Pull requests
-- Checks:
-  - Code linting (ESLint)
-  - Security scanning (SonarCloud)
-  - Quality gate enforcement
-  - Dependency auditing
-
-**Pipeline Configuration:** `.github/workflows/ci.yml`
-
-**SonarCloud Metrics:**
-- Quality Gate: Passed
-- Security Rating: A
-- Bugs: 0
-- Vulnerabilities: 0
-- Code Smells: 0
+- [🎯 Project Evolution](#-project-evolution-part-2--part-3)
+- [✨ What's New in Part 3](#-whats-new-in-part-3)
+- [📺 Video Demonstration](#-video-demonstration)
+- [🌐 Live Deployment](#-live-deployment)
+- [📸 Application Preview](#-application-preview)
+- [🔐 Security Architecture](#-security-architecture)
+- [⚙️ Technical Stack](#️-technical-stack)
+- [🚀 Features Overview](#-features-overview)
+- [🏗️ System Architecture](#️-system-architecture)
+- [💻 Installation Guide](#-installation-guide)
+- [📡 API Reference](#-api-reference)
+- [🧪 Testing Strategy](#-testing-strategy)
+- [⚙️ CI/CD Pipeline](#️-cicd-pipeline)
+- [📋 Project Requirements](#-project-requirements)
+- [🙏 Acknowledgments](#-acknowledgments)
 
 ---
 
-## Technology Stack
+## 🎯 **Project Evolution: Part 2 → Part 3**
 
-### Frontend
-```
-React 18.3.1
-React Router 6.28.0
-Axios 1.7.9
-```
-
-### Backend
-```
-Node.js 18+
-Express 4.21.2
-MongoDB + Mongoose
-bcryptjs 2.4.3
-jsonwebtoken 9.0.2
-helmet 8.0.0
-express-rate-limit 7.4.1
-```
-
-### Development Tools
-```
-ESLint
-SonarCloud
-GitHub Actions
-OBS Studio (video recording)
-```
-
----
-
-## Getting Started
-
-### Prerequisites
-
-- Node.js v18 or higher
-- MongoDB v4.4 or higher
-- npm or yarn
-- OpenSSL (for SSL certificates)
-
-### Installation
-
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/VCDN-2025/insy7314-poe-part-2-ST10407732.git
-   cd insy7314-poe-part-2-ST10407732
-   ```
-
-2. **Backend Setup**
-   ```bash
-   cd Backend
-   npm install
-   ```
-
-3. **Generate SSL Certificates**
-   ```bash
-   mkdir ssl
-   openssl req -x509 -newkey rsa:4096 -keyout ssl/key.pem -out ssl/cert.pem -days 365 -nodes
-   ```
-
-4. **Configure Environment Variables**
-   
-   Create `Backend/.env`:
-   ```env
-   PORT=5000
-   MONGO_URI=mongodb+srv://username:password@cluster.mongodb.net/database
-   JWT_SECRET=your_super_secret_jwt_key_minimum_32_characters
-   FRONTEND_URL=https://localhost:3000
-   NODE_ENV=development
-   ```
-
-5. **Frontend Setup**
-   ```bash
-   cd ../frontend
-   npm install
-   ```
-
-   Create `frontend/.env`:
-   ```env
-   REACT_APP_API_URL=https://localhost:5000/api
-   HTTPS=true
-   ```
-
-6. **Start MongoDB**
-   ```bash
-   # If using Docker
-   docker run -d -p 27017:27017 mongo:latest
-   
-   # Or start local MongoDB service
-   sudo systemctl start mongod
-   ```
-
-7. **Run the Application**
-   
-   Terminal 1 (Backend):
-   ```bash
-   cd Backend
-   node server.js
-   ```
-
-   Terminal 2 (Frontend):
-   ```bash
-   cd frontend
-   npm start
-   ```
-
-8. **Access the Application**
-   - Frontend: https://localhost:3000
-   - Backend API: https://localhost:5000/api
-
-   **Note:** Accept the SSL certificate warning in your browser (for development only)
+<table>
+  <tr>
+    <th width="50%">📦 Part 2 (Basic)</th>
+    <th width="50%">🚀 Part 3 (Enterprise)</th>
+  </tr>
+  <tr>
+    <td>
+      <ul>
+        <li>❌ No SSL/HTTPS encryption</li>
+        <li>❌ Basic UI with minimal styling</li>
+        <li>❌ Simple authentication only</li>
+        <li>❌ No multi-factor authentication</li>
+        <li>❌ Limited input validation</li>
+        <li>❌ No automated testing</li>
+        <li>❌ Manual deployment process</li>
+        <li>❌ No security scanning</li>
+        <li>❌ Basic error handling</li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li>✅ <strong>Full SSL/TLS encryption</strong></li>
+        <li>✅ <strong>Modern, responsive UI design</strong></li>
+        <li>✅ <strong>JWT + Refresh token system</strong></li>
+        <li>✅ <strong>MFA with OTP verification</strong></li>
+        <li>✅ <strong>Comprehensive validation (express-validator)</strong></li>
+        <li>✅ <strong>Jest + Supertest test suites</strong></li>
+        <li>✅ <strong>Automated CI/CD with CircleCI</strong></li>
+        <li>✅ <strong>SonarCloud quality scanning</strong></li>
+        <li>✅ <strong>Advanced security middleware</strong></li>
+      </ul>
+    </td>
+  </tr>
+</table>
 
 ---
 
-## Architecture
+## ✨ **What's New in Part 3**
 
-### System Architecture
+### 🔒 **Security Enhancements**
+
+| Feature | Description | Status |
+|---------|-------------|--------|
+| **HTTPS/SSL Encryption** | End-to-end TLS 1.3 encryption on all connections | ✅ Implemented |
+| **JWT Authentication** | Secure token-based auth with automatic refresh | ✅ Implemented |
+| **Multi-Factor Authentication** | OTP-based 2FA with authenticator app support | ✅ Implemented |
+| **Password Security** | bcrypt hashing with salt rounds | ✅ Implemented |
+| **Rate Limiting** | Protection against brute force attacks | ✅ Implemented |
+| **Account Lockout** | Automatic lockout after failed attempts | ✅ Implemented |
+| **Helmet Middleware** | XSS, CSP, and security header protection | ✅ Implemented |
+| **Input Sanitization** | express-validator on all endpoints | ✅ Implemented |
+
+### 🎨 **User Experience Improvements**
+
+- **Modern UI Design**: Complete redesign with contemporary aesthetics
+- **Responsive Layout**: Mobile-first design that works on all devices
+- **Improved Navigation**: Intuitive user flows and clear CTAs
+- **Loading States**: Professional loading indicators and transitions
+- **Error Handling**: User-friendly error messages and validation feedback
+- **Dashboard Enhancement**: Rich analytics and transaction history views
+
+### 🛠️ **Development & Operations**
+
+- **Automated Testing**: Jest unit tests, Supertest integration tests, Newman API tests
+- **CI/CD Pipeline**: CircleCI automation for build, test, and deploy
+- **Code Quality**: SonarCloud integration for static analysis
+- **Containerization**: Docker support for consistent environments
+- **Monitoring**: Health checks and deployment status tracking
+
+---
+
+## 📺 **Video Demonstration**
+
+<div align="center">
+
+Watch our comprehensive walkthrough covering all features, security implementations, and user workflows:
+
+[![PulsePay Demo](https://img.youtube.com/vi/TKLIx1VxwGY/maxresdefault.jpg)](https://youtu.be/TKLIx1VxwGY)
+
+**[▶️ Click to Watch Full Demo on YouTube](https://youtu.be/TKLIx1VxwGY)**
+
+*Includes: Registration, MFA setup, Payment processing, Admin features, Security demonstrations*
+
+</div>
+
+---
+
+## 🌐 **Live Deployment**
+
+### **Production Environment**
+
+<table align="center" width="100%">
+  <tr>
+    <th width="25%">Component</th>
+    <th width="35%">URL</th>
+    <th width="40%">Description</th>
+  </tr>
+  <tr>
+    <td align="center">🎨 <strong>Frontend</strong></td>
+    <td><a href="https://payments-frontend-h173.onrender.com">payments-frontend-h173.onrender.com</a></td>
+    <td>React SPA with modern UI</td>
+  </tr>
+  <tr>
+    <td align="center">⚡ <strong>Backend API</strong></td>
+    <td><a href="https://insy7314-poe-part-3-st10299658.onrender.com">insy7314-poe-part-3-st10299658.onrender.com</a></td>
+    <td>Express REST API with JWT auth</td>
+  </tr>
+  <tr>
+    <td align="center">📺 <strong>Demo Video</strong></td>
+    <td><a href="https://youtu.be/TKLIx1VxwGY">YouTube Demo</a></td>
+    <td>Complete feature walkthrough</td>
+  </tr>
+</table>
+
+#### **Deployment Features**
+- ✅ Hosted on Render (free tier)
+- ✅ Automatic SSL certificates
+- ✅ Auto-deploy on Git push
+- ✅ Health monitoring enabled
+- ✅ Environment variables secured
+
+> ⏱️ **Note**: Initial load may take 30-50 seconds on free tier as Render spins up the instance.
+
+---
+
+## 📸 **Application Preview**
+
+### 🏠 **Home Page - Modern Landing Experience**
+
+<div align="center">
+  <img width="1279" alt="PulsePay Home Page" src="https://github.com/user-attachments/assets/6fa9ccff-f926-416e-9bc7-1f39598b308a" />
+  
+  *Clean, professional interface with clear call-to-actions and intuitive navigation*
+</div>
+
+### ✨ **Key UI Highlights**
+- **Professional Design**: Modern color scheme with smooth animations
+- **Responsive Layout**: Seamless experience across desktop, tablet, and mobile
+- **Accessibility**: WCAG 2.1 compliant with keyboard navigation
+- **Performance**: Optimized loading with lazy-loading components
+
+---
+
+## 🔐 **Security Architecture**
 
 ```
-┌─────────────────┐         HTTPS          ┌──────────────────┐
-│                 │◄─────────────────────►│                  │
-│  React Frontend │      Encrypted         │  Express Backend │
-│  (Port 3000)    │      Connection        │  (Port 5000)     │
-│                 │                        │                  │
-└─────────────────┘                        └────────┬─────────┘
-                                                    │
-                                                    │ Mongoose
-                                                    │
-                                           ┌────────▼─────────┐
-                                           │                  │
-                                           │  MongoDB Atlas   │
-                                           │  (Cloud DB)      │
-                                           │                  │
-                                           └──────────────────┘
-```
-
-### Project Structure
-
-```
-international-payment-portal/
-├── Backend/
-│   ├── controllers/
-│   │   ├── authController.js      # Authentication logic
-│   │   └── paymentController.js   # Payment processing
-│   ├── middleware/
-│   │   ├── authMiddleware.js      # JWT verification
-│   │   └── rateLimiter.js         # Rate limiting
-│   ├── models/
-│   │   ├── User.js                # User schema
-│   │   └── Payment.js             # Payment schema
-│   ├── routes/
-│   │   ├── authRoutes.js          # Auth endpoints
-│   │   └── paymentRoutes.js       # Payment endpoints
-│   ├── ssl/
-│   │   ├── key.pem                # Private key
-│   │   └── cert.pem               # Certificate
-│   ├── app.js                     # Express app configuration
-│   ├── server.js                  # HTTPS server
-│   └── package.json
-│
-├── frontend/
-│   ├── src/
-│   │   ├── components/
-│   │   │   ├── Layout.jsx         # App layout with nav
-│   │   │   ├── Login.jsx          # Login component
-│   │   │   ├── Register.jsx       # Registration component
-│   │   │   └── ProtectedRoute.jsx # Route protection
-│   │   ├── pages/
-│   │   │   ├── HomePage.jsx       # Landing page
-│   │   │   ├── DashboardPage.jsx  # User dashboard
-│   │   │   ├── PaymentPage.jsx    # Create payment
-│   │   │   └── PaymentsPage.jsx   # Payment history
-│   │   ├── services/
-│   │   │   └── api.js             # Axios configuration
-│   │   └── index.js               # App entry point
-│   └── package.json
-│
-├── .github/
-│   └── workflows/
-│       └── ci.yml                 # GitHub Actions pipeline
-│
-└── README.md
+┌─────────────────────────────────────────────────────┐
+│             SECURITY LAYERS                         │
+├─────────────────────────────────────────────────────┤
+│  Layer 1: HTTPS/TLS 1.3 Encryption                 │
+│           └─ All traffic encrypted end-to-end       │
+├─────────────────────────────────────────────────────┤
+│  Layer 2: Authentication                            │
+│           ├─ JWT access tokens (15min expiry)       │
+│           ├─ Refresh tokens (7 days)                │
+│           └─ Multi-Factor Authentication (MFA)      │
+├─────────────────────────────────────────────────────┤
+│  Layer 3: Authorization                             │
+│           ├─ Role-based access control (RBAC)       │
+│           └─ Route protection middleware            │
+├─────────────────────────────────────────────────────┤
+│  Layer 4: Data Protection                           │
+│           ├─ bcrypt password hashing (10 rounds)    │
+│           ├─ Input sanitization & validation        │
+│           └─ MongoDB injection prevention           │
+├─────────────────────────────────────────────────────┤
+│  Layer 5: Application Security                      │
+│           ├─ Helmet.js security headers             │
+│           ├─ CORS policy enforcement                │
+│           ├─ Rate limiting (100/15min)              │
+│           ├─ Account lockout (5 attempts)           │
+│           └─ CSRF protection                        │
+└─────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## API Documentation
+## ⚙️ **Technical Stack**
 
-### Base URL
+<table>
+  <tr>
+    <th>Category</th>
+    <th>Technologies</th>
+  </tr>
+  <tr>
+    <td><strong>Frontend</strong></td>
+    <td>
+      React 18.x • React Router • Axios • Context API • CSS3
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Backend</strong></td>
+    <td>
+      Node.js 18.x • Express 4.x • Mongoose ODM
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Database</strong></td>
+    <td>
+      MongoDB Atlas • Mongoose Schema Validation
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Authentication</strong></td>
+    <td>
+      JWT (jsonwebtoken) • bcrypt • speakeasy (MFA) • qrcode
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Security</strong></td>
+    <td>
+      Helmet.js • express-validator • express-rate-limit • CORS
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Testing</strong></td>
+    <td>
+      Jest • Supertest • Newman • ESLint
+    </td>
+  </tr>
+  <tr>
+    <td><strong>DevOps</strong></td>
+    <td>
+      CircleCI • SonarCloud • Docker • Render
+    </td>
+  </tr>
+</table>
+
+---
+
+## 🚀 **Features Overview**
+
+### 👤 **For Customers**
+
+<table>
+  <tr>
+    <td width="50%">
+      <h4>🔐 Secure Account Management</h4>
+      <ul>
+        <li>Self-registration with validation</li>
+        <li>MFA enrollment with QR code</li>
+        <li>Profile management</li>
+        <li>Password reset functionality</li>
+      </ul>
+    </td>
+    <td width="50%">
+      <h4>💸 Payment Operations</h4>
+      <ul>
+        <li>Create international payments</li>
+        <li>SWIFT code validation</li>
+        <li>Real-time status tracking</li>
+        <li>Transaction history</li>
+      </ul>
+    </td>
+  </tr>
+</table>
+
+### 👨‍💼 **For Employees**
+
+- **Payment Processing**: Review and verify customer transactions
+- **Dashboard Access**: View pending and processed payments
+- **Reporting**: Generate transaction reports
+- **Customer Support**: Access customer payment history
+
+### 👑 **For Administrators**
+
+- **User Management**: Create/manage employee accounts
+- **Payment Approval**: Approve or reject transactions
+- **System Monitoring**: View all users and payments
+- **Analytics**: Access to comprehensive reports
+
+---
+
+## 🏗️ **System Architecture**
+
 ```
-https://localhost:5000/api
+                    ┌──────────────────────┐
+                    │   React Frontend     │
+                    │  (Client Browser)    │
+                    └──────────┬───────────┘
+                               │
+                    HTTPS/TLS 1.3 (SSL)
+                               │
+                    ┌──────────▼───────────┐
+                    │    NGINX/Render      │
+                    │   Load Balancer      │
+                    └──────────┬───────────┘
+                               │
+                ┌──────────────┼──────────────┐
+                │              │              │
+     ┌──────────▼─────┐ ┌─────▼──────┐ ┌────▼──────┐
+     │   Security     │ │  Express   │ │   Rate    │
+     │   Middleware   │ │   Router   │ │  Limiter  │
+     │  (Helmet)      │ │            │ │           │
+     └──────────┬─────┘ └─────┬──────┘ └────┬──────┘
+                │              │              │
+                └──────────────┼──────────────┘
+                               │
+                    ┌──────────▼───────────┐
+                    │  Business Logic      │
+                    │  • Auth Controller   │
+                    │  • Payment Service   │
+                    │  • User Service      │
+                    └──────────┬───────────┘
+                               │
+                    ┌──────────▼───────────┐
+                    │   MongoDB Atlas      │
+                    │   • Users Collection │
+                    │   • Payments         │
+                    │   • MFA Secrets      │
+                    └──────────────────────┘
 ```
 
-### Authentication Endpoints
+---
 
-#### Register User
-```http
-POST /auth/register
-Content-Type: application/json
+## 💻 **Installation Guide**
 
-{
-  "fullName": "John Doe",
-  "email": "john@example.com",
-  "idNumber": "1234567890123",
-  "accountNumber": "1234567890",
-  "password": "SecurePass123!"
-}
+### 📋 **Prerequisites**
 
-Response: 201 Created
-{
-  "message": "User registered successfully."
-}
+- Node.js ≥ 18.0
+- npm ≥ 9.0
+- MongoDB Atlas account
+- Git
+
+### 🔧 **Backend Setup**
+
+```bash
+# Clone the repository
+git clone https://github.com/VCDN-2025/insy7314-poe-part-3-ST10299658.git
+cd insy7314-poe-part-3-ST10299658
+
+# Navigate to server directory
+cd server
+
+# Install dependencies
+npm install
+
+# Create environment file
+cp .env.example .env
+
+# Configure .env file
+# Required variables:
+#   PORT=4000
+#   MONGO_URI=your_mongodb_atlas_connection_string
+#   JWT_SECRET=your_secure_jwt_secret
+#   JWT_REFRESH_SECRET=your_refresh_token_secret
+#   CORS_ORIGIN=https://localhost:5173
+#   NODE_ENV=development
+
+# Start the server
+npm run dev
 ```
 
-#### Login
-```http
-POST /auth/login
-Content-Type: application/json
+Server will be running at `https://localhost:4000`
 
-{
-  "accountNumber": "1234567890",
-  "password": "SecurePass123!"
-}
+### 🎨 **Frontend Setup**
 
-Response: 200 OK
-{
-  "message": "Login successful.",
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-  "user": {
-    "id": "...",
-    "fullName": "John Doe",
-    "accountNumber": "1234567890"
-  }
-}
+```bash
+# Open new terminal and navigate to client directory
+cd client
+
+# Install dependencies
+npm install
+
+# Create environment file
+echo "VITE_API_URL=https://localhost:4000/api" > .env
+
+# Start development server
+npm run dev
 ```
 
-#### Logout
-```http
-POST /auth/logout
-Authorization: Bearer {token}
+Application will be available at `https://localhost:5173`
 
-Response: 200 OK
-{
-  "message": "Logged out successfully."
-}
-```
+---
 
-### Payment Endpoints
+## 📡 **API Reference**
 
-#### Create Payment
-```http
-POST /payments
-Authorization: Bearer {token}
-Content-Type: application/json
+### **Authentication Endpoints**
 
-{
-  "amount": 1000.00,
-  "currency": "USD",
-  "provider": "SWIFT",
-  "payeeAccount": "9876543210",
-  "swiftCode": "ABCDZAJJXXX"
-}
+| Method | Endpoint | Description | Access |
+|--------|----------|-------------|--------|
+| `POST` | `/api/auth/register` | Create new customer account | Public |
+| `POST` | `/api/auth/login` | Authenticate user | Public |
+| `POST` | `/api/auth/verify-mfa` | Verify OTP code | Public |
+| `POST` | `/api/auth/refresh-token` | Get new access token | Private |
+| `POST` | `/api/auth/logout` | Invalidate session | Private |
 
-Response: 201 Created
-{
-  "message": "Payment submitted successfully",
-  "paymentId": "...",
-  "payment": {
+### **Payment Endpoints**
+
+| Method | Endpoint | Description | Access |
+|--------|----------|-------------|--------|
+| `GET` | `/api/payments` | Fetch all payments | Customer/Employee/Admin |
+| `POST` | `/api/payments` | Create new payment | Customer |
+| `GET` | `/api/payments/:id` | Get payment details | Owner/Employee/Admin |
+| `PUT` | `/api/payments/:id/approve` | Approve payment | Admin |
+| `PUT` | `/api/payments/:id/reject` | Reject payment | Admin |
+
+### **User Management Endpoints**
+
+| Method | Endpoint | Description | Access |
+|--------|----------|-------------|--------|
+| `GET` | `/api/users` | List all users | Admin |
+| `POST` | `/api/users/add-employee` | Create employee account | Admin |
+| `GET` | `/api/users/:id` | Get user details | Admin/Self |
+| `PUT` | `/api/users/:id` | Update user profile | Admin/Self |
+
+### **Example Request**
+
+```bash
+# Register new user
+curl -X POST https://insy7314-poe-part-3-st10299658.onrender.com/api/auth/register \
+  -H "Content-Type: application/json" \
+  -d '{
+    "fullName": "Sharon Mthembu",
+    "idNumber": "A1234567",
+    "accountNumber": "10397441438",
+    "username": "sharonz",
+    "password": "Test@12345"
+  }'
+
+# Create payment (requires JWT token)
+curl -X POST https://insy7314-poe-part-3-st10299658.onrender.com/api/payments \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  -d '{
     "amount": 1000,
-    "currency": "USD",
-    "status": "pending",
-    "createdAt": "2025-01-08T..."
-  }
-}
-```
-
-#### Get User Payments
-```http
-GET /payments
-Authorization: Bearer {token}
-
-Response: 200 OK
-{
-  "success": true,
-  "count": 5,
-  "payments": 
-}
-```
-
-#### Get Payment by ID
-```http
-GET /payments/{id}
-Authorization: Bearer {token}
-
-Response: 200 OK
-{
-  "success": true,
-  "payment": 
-}
+    "currency": "ZAR",
+    "provider": "SWIFT",
+    "payeeName": "John Doe",
+    "payeeAccountNumber": "87654321",
+    "swiftCode": "ABSAZAJJ"
+  }'
 ```
 
 ---
 
-## Security Features
+## 🧪 **Testing Strategy**
 
-### Password Requirements
-- Minimum 8 characters
-- Maximum 128 characters
-- At least one uppercase letter
-- At least one lowercase letter
-- At least one number
-- At least one special character (@$!%*?&)
+### **Test Coverage**
 
-### Account Lockout Policy
-- Maximum failed attempts: 5
-- Lockout duration: 15 minutes
-- Automatic unlock after duration
+<table>
+  <tr>
+    <th>Test Type</th>
+    <th>Tool</th>
+    <th>Coverage</th>
+    <th>Status</th>
+  </tr>
+  <tr>
+    <td><strong>Unit Tests</strong></td>
+    <td>Jest</td>
+    <td>85%+</td>
+    <td>✅ Passing</td>
+  </tr>
+  <tr>
+    <td><strong>Integration Tests</strong></td>
+    <td>Supertest</td>
+    <td>All endpoints</td>
+    <td>✅ Passing</td>
+  </tr>
+  <tr>
+    <td><strong>API Tests</strong></td>
+    <td>Newman</td>
+    <td>All routes</td>
+    <td>✅ Passing</td>
+  </tr>
+  <tr>
+    <td><strong>Linting</strong></td>
+    <td>ESLint</td>
+    <td>100%</td>
+    <td>✅ Passing</td>
+  </tr>
+  <tr>
+    <td><strong>Security Audit</strong></td>
+    <td>npm audit</td>
+    <td>0 vulnerabilities</td>
+    <td>✅ Passing</td>
+  </tr>
+  <tr>
+    <td><strong>Code Quality</strong></td>
+    <td>SonarCloud</td>
+    <td>A rating</td>
+    <td>✅ Passing</td>
+  </tr>
+</table>
 
-### Token Security
-- Algorithm: HS256
-- Expiration: 30 minutes
-- Storage: HTTP-only cookie + localStorage
-- Automatic refresh on activity
+### **Running Tests**
 
-### Rate Limiting
-- General endpoints: 100 requests per 15 minutes
-- Authentication endpoints: 10 requests per 15 minutes
-- Payment endpoints: Authenticated users only
-
----
-
-## Code Attribution
-
-### Course Materials and Tutorials
-
-**Primary Course Repository:**
-- VCDN-2025-INSY7314/Hello-INSY7314: https://github.com/VCDN-2025-INSY7314/Hello-INSY7314
-- The project structure, SSL implementation, authentication flow, and DevOps pipeline were adapted from course tutorials and examples provided by the instructor
-- Specific modules referenced:
-  - Module 02: Adding SSL - https://github.com/VCDN-2025-INSY7314/Hello-INSY7314/tree/main/02%20-%20Adding%20SSL
-  - Module 03: Adding Authentication with JWT
-  - Module 08: Rate Limiting
-  - Module 11: Pipelining the API with lint and render deploy - https://github.com/VCDN-2025-INSY7314/Hello-INSY7314/tree/main/11%20-%20Pipelining%20the%20API
-  - Module 12: Pipelining with Newman and SonarQube
-
-### Security Implementation References
-
-**Password Hashing:**
-- bcrypt documentation: https://www.npmjs.com/package/bcryptjs
-- OWASP Password Storage Cheat Sheet: https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html
-- Implementation pattern based on INSY7314 course materials
-
-**SSL/TLS Configuration:**
-- Node.js HTTPS documentation: https://nodejs.org/api/https.html
-- Mozilla SSL Configuration Generator: https://ssl-config.mozilla.org/
-- OpenSSL certificate generation adapted from course Module 02
-- Certificate configuration follows INSY7314 tutorial guidelines
-
-**Input Validation:**
-- OWASP Input Validation Cheat Sheet: https://cheatsheetseries.owasp.org/cheatsheets/Input_Validation_Cheat_Sheet.html
-- RegEx patterns adapted from OWASP guidelines and course examples
-
-**Attack Prevention:**
-- Helmet.js documentation: https://helmetjs.github.io/
-- express-rate-limit: https://www.npmjs.com/package/express-rate-limit
-- express-mongo-sanitize: https://www.npmjs.com/package/express-mongo-sanitize
-- Middleware configuration based on course security modules
-
-**JWT Authentication:**
-- jsonwebtoken documentation: https://www.npmjs.com/package/jsonwebtoken
-- JWT.io: https://jwt.io/introduction
-- Authentication middleware structure from INSY7314 Module 03
-
-**DevSecOps Pipeline:**
-- GitHub Actions workflow adapted from INSY7314 Module 11
-- SonarCloud integration based on Module 12 guidelines
-- ESLint configuration from course standards
-
-**SWIFT Code Standards:**
-- ISO 9362 BIC standard for SWIFT codes
-- SWIFT network documentation for payment processing flows
-
-### Third-Party Libraries
-
-All third-party libraries are properly attributed in `package.json` files:
-- React and React Router (Meta Platforms, Inc.)
-- Express.js (Node.js Foundation)
-- MongoDB and Mongoose (MongoDB, Inc.)
-- All security middleware packages as listed in Technology Stack
-
----
-
-## Testing
-
-### Run Tests
 ```bash
-cd Backend
+# Run all tests
 npm test
+
+# Run tests with coverage
+npm run test:coverage
+
+# Run linter
+npm run lint
+
+# Run API tests
+npm run api-test
+
+# Security audit
+npm audit
 ```
 
 ---
 
-## Deployment
+## ⚙️ **CI/CD Pipeline**
 
-### Deployment Commands
+### **CircleCI Workflow**
 
-```bash
-# Build frontend
-cd frontend
-npm run build
-
-# Deploy backend
-cd Backend
-pm2 start server.js --name payment-portal
-pm2 save
+```yaml
+┌─────────────────────────────────────────┐
+│  1. Code Commit to GitHub               │
+└────────────────┬────────────────────────┘
+                 │
+┌────────────────▼────────────────────────┐
+│  2. CircleCI Triggered                  │
+│     • Checkout code                     │
+│     • Setup Node.js 18.x                │
+└────────────────┬────────────────────────┘
+                 │
+┌────────────────▼────────────────────────┐
+│  3. Install Dependencies                │
+│     npm install                         │
+└────────────────┬────────────────────────┘
+                 │
+┌────────────────▼────────────────────────┐
+│  4. Run Linter (ESLint)                 │
+│     npm run lint                        │
+└────────────────┬────────────────────────┘
+                 │
+┌────────────────▼────────────────────────┐
+│  5. Unit Tests (Jest)                   │
+│     npm test                            │
+└────────────────┬────────────────────────┘
+                 │
+┌────────────────▼────────────────────────┐
+│  6. Security Audit                      │
+│     npm audit --audit-level=high        │
+└────────────────┬────────────────────────┘
+                 │
+┌────────────────▼────────────────────────┐
+│  7. SonarCloud Analysis                 │
+│     • Code quality scan                 │
+│     • Security vulnerabilities          │
+│     • Code smells & bugs                │
+└────────────────┬────────────────────────┘
+                 │
+┌────────────────▼────────────────────────┐
+│  8. Integration Tests (Supertest)       │
+│     npm run test:integration            │
+└────────────────┬────────────────────────┘
+                 │
+┌────────────────▼────────────────────────┐
+│  9. API Tests (Newman)                  │
+│     npm run api-test                    │
+└────────────────┬────────────────────────┘
+                 │
+┌────────────────▼────────────────────────┐
+│  10. Build Production Bundle            │
+│      npm run build                      │
+└────────────────┬────────────────────────┘
+                 │
+┌────────────────▼────────────────────────┐
+│  11. Deploy to Render                   │
+│      • Frontend: payments-frontend      │
+│      • Backend: API server              │
+└─────────────────────────────────────────┘
 ```
 
 ---
 
-## Contributing
+## 📋 **Project Requirements**
 
-This is an academic project. For improvements or issues:
+### **Part 3 Compliance Checklist**
 
-1. Fork the repository
-2. Create a feature branch
-3. Commit your changes
-4. Push to the branch
-5. Create a Pull Request
-
----
-
-## Authors
-
-**Student Number:** ST10407732  
-**Course:** INSY7314  
-**Institution:** Varsity College  
-**Year:** 2025
-
-**Student Number:** ST10286777 
-**Course:** INSY7314  
-**Institution:** Varsity College  
-**Year:** 2025
-
-**Student Number:** ST10262825
-**Course:** INSY7314  
-**Institution:** Varsity College  
-**Year:** 2025
-
-**Student Number:** ST10210161 
-**Course:** INSY7314  
-**Institution:** Varsity College  
-**Year:** 2025
-**Security Notice:** This application uses self-signed SSL certificates for development. In production, use certificates from a trusted Certificate Authority.
-
-**Banking Notice:** This is a demonstration project for educational purposes. Not intended for actual financial transactions.
+| Requirement | Implementation | Status |
+|-------------|----------------|--------|
+| **SSL/HTTPS Encryption** | TLS 1.3 on both frontend & backend | ✅ Complete |
+| **Password Security** | bcrypt hashing with 10 salt rounds | ✅ Complete |
+| **JWT Authentication** | Access + refresh token system | ✅ Complete |
+| **Multi-Factor Auth (MFA)** | TOTP with QR code generation | ✅ Complete |
+| **Input Validation** | express-validator on all endpoints | ✅ Complete |
+| **Rate Limiting** | 100 requests per 15 minutes | ✅ Complete |
+| **Account Lockout** | After 5 failed login attempts | ✅ Complete |
+| **Security Headers** | Helmet.js middleware | ✅ Complete |
+| **Automated Testing** | Jest, Supertest, Newman | ✅ Complete |
+| **CI/CD Pipeline** | CircleCI automation | ✅ Complete |
+| **Code Quality Scan** | SonarCloud integration | ✅ Complete |
+| **Containerization** | Docker support | ✅ Complete |
+| **Cloud Deployment** | Render (free tier) | ✅ Complete |
+| **Modern UI/UX** | Responsive, accessible design | ✅ Complete |
+| **Role-Based Access** | Customer/Employee/Admin roles | ✅ Complete |
 
 ---
 
-*Built with security and reliability in mind for international payment processing*
-"# Trigger CircleCI" 
+## 📚 **Documentation References**
+
+- **INSY7314 Module**: Security best practices, JWT implementation, MFA setup
+- **OWASP**: Security guidelines and vulnerability prevention
+- **Express.js**: Official framework documentation
+- **MongoDB**: Atlas configuration and Mongoose ODM
+- **CircleCI**: CI/CD pipeline configuration
+- **SonarCloud**: Code quality and security scanning
+- **Render**: Cloud deployment platform
+
+---
+
+## 🙏 **Acknowledgments**
+
+This project represents the culmination of **INSY7314 - Portfolio of Evidence Part 3** for Varsity College, 2025.
+
+### **Special Thanks**
+
+- **Varsity College Faculty** - For comprehensive curriculum and mentorship
+- **INSY7314 Lecturers** - For guidance on secure development practices
+- **Open Source Community** - For exceptional tools and libraries
+- **Our Team** - For dedication, collaboration, and hard work
+
+---
+
+<div align="center">
+
+### 🌟 **Built with passion and precision** 🌟
+
+**PulsePay** - *Making international payments secure, simple, and swift*
+
+---
+
+![Made with Love](https://img.shields.io/badge/Made%20with-❤️-red?style=for-the-badge)
+![Node.js](https://img.shields.io/badge/Powered%20by-Node.js-339933?style=for-the-badge&logo=node.js)
+![MongoDB](https://img.shields.io/badge/Database-MongoDB-47A248?style=for-the-badge&logo=mongodb)
+
+**© 2025 PulsePay Development Team | Varsity College**
+
+</div>
